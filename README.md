@@ -48,6 +48,8 @@ Approximately 3 hours - 2 days
 4. A brief document explaining how you ensured scalability, performance, and maintainability.
 5. Demo video
 
+Please send your submission files to talent@abconvert.io.
+
 ## Evaluation criteria
 
 1. Coding practice: including code quality, commit history, and development style
