@@ -1,9 +1,10 @@
+import React from 'react';
+
 import {
   MoisturizationIcon,
   PreventBreakageIcon,
   StrengthenIcon,
 } from '../component/feature-icon';
-import React from 'react';
 
 export default function Home() {
   return (

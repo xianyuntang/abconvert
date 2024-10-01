@@ -1,11 +1,11 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import path from 'path';
+import { Environment, validateObject } from 'shared';
 
 import { PROJECT_ROOT } from '../app';
 import { AppConfigService } from './app-config.service';
 import { AppEnvSchema } from './app-env.schema';
-import { Environment, validateObject } from 'shared';
-import path from 'path';
 
 @Global()
 @Module({

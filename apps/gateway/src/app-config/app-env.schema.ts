@@ -1,7 +1,7 @@
 import { IsEnum, IsNumber, Max, Min } from 'class-validator';
+import { Environment } from 'shared';
 
 import { EnvField } from './env.constant';
-import { Environment } from 'shared';
 
 export class AppEnvSchema {
   @IsEnum(Environment)

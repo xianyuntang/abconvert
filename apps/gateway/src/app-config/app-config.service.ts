@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Environment } from 'shared';
 
 import { EnvField } from './env.constant';
-import { Environment } from 'shared';
 
 @Injectable()
 export class AppConfigService {
