@@ -22,4 +22,13 @@ export class AppConfigService {
       port: this.configService.getOrThrow<number>(EnvField.SERVER_PORT),
     };
   }
+
+  get services() {
+    return {
+      kafka: {
+        host: this.configService.getOrThrow<number>(EnvField.KAFKA_HOST),
+        port: this.configService.getOrThrow<number>(EnvField.KAFKA_PORT),
+      },
+    };
+  }
 }

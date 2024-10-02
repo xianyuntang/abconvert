@@ -1,4 +1,6 @@
 export enum EnvField {
   NODE_ENV = 'NODE_ENV',
   SERVER_PORT = 'SERVER_PORT',
+  KAFKA_HOST = 'KAFKA_HOST',
+  KAFKA_PORT = 'KAFKA_PORT',
 }

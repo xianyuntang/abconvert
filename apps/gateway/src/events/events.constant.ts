@@ -1,0 +1,1 @@
+export const CLIENT_KAFKA_TOKEN = Symbol('CLIENT_KAFKA_TOKEN');
