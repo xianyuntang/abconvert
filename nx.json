@@ -48,7 +48,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/gateway-e2e/**/*"]
+      "exclude": ["apps/gateway-e2e/**/*", "apps/event-worker-e2e/**/*"]
     },
     {
       "plugin": "@nx/webpack/plugin",

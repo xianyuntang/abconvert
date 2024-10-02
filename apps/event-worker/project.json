@@ -1,0 +1,26 @@
+{
+  "name": "event-worker",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/event-worker/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "event-worker:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "event-worker:build:development"
+        },
+        "production": {
+          "buildTarget": "event-worker:build:production"
+        }
+      }
+    }
+  }
+}
