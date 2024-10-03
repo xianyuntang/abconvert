@@ -24,7 +24,7 @@ import { EventService } from './events.service';
                 brokers: [`${host}:${port}`],
               },
               consumer: {
-                groupId: 'gateway.events',
+                groupId: 'event-worker',
               },
             },
           };

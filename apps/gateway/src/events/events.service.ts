@@ -1,9 +1,9 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
-import { EventType } from 'shared';
+import { EventPayload } from 'shared';
 
+import { AddEventRequestDto } from './dto';
 import { CLIENT_KAFKA_TOKEN } from './events.constant';
-import { EventPayload } from './events.interface';
 
 @Injectable()
 export class EventService implements OnModuleInit {
@@ -15,11 +15,11 @@ export class EventService implements OnModuleInit {
     await this.clientKafka.connect();
   }
 
-  addEvent(clientId: string, eventType: EventType, payload?: object) {
-    this.clientKafka.emit<string, EventPayload>('customer-event', {
-      clientId,
-      eventType,
-      payload,
+  addEvent(dto: AddEventRequestDto) {
+    this.clientKafka.emit<string, EventPayload>('store-customer-event', {
+      clientId: dto.clientId,
+      eventType: dto.eventType,
+      payload: dto.payload,
     });
   }
 }

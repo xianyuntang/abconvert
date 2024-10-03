@@ -5,6 +5,7 @@
   "scripts": {
     "frontend:dev": "nx run frontend:dev",
     "gateway:dev": "nx run gateway:serve",
+    "event-worker:dev": "nx run event-worker:serve",
     "lint": "nx run-many --target=lint --all",
     "prepare": "husky"
   },

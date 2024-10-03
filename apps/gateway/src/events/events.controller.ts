@@ -9,6 +9,6 @@ export class EventsController {
 
   @Post()
   addEvent(@Body() dto: AddEventRequestDto) {
-    this.eventService.addEvent(dto.clientId, dto.eventType, dto.payload);
+    this.eventService.addEvent(dto);
   }
 }
