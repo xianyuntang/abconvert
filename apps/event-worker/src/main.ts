@@ -6,6 +6,7 @@
 import { Logger } from '@nestjs/common';
 import { NestApplication, NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { ConsumerGroup } from 'shared';
 
 import { AppModule } from './app/app.module';
 import { AppConfigService } from './app-config';
@@ -28,7 +29,7 @@ async function bootstrap() {
         brokers: [`${host}:${port}`],
       },
       consumer: {
-        groupId: 'event-worker',
+        groupId: ConsumerGroup.EventProcessGroup,
       },
     },
   });

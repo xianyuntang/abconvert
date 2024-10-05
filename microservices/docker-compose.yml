@@ -14,3 +14,19 @@ services:
       KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
       ALLOW_PLAINTEXT_LISTENER: yes
+  clickhouse:
+    image: clickhouse/clickhouse-server:24-alpine
+    volumes:
+      - ./storage/clickhouse/config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ./storage/clickhouse/users.xml:/etc/clickhouse-server/users.d/users.xml
+    ports:
+      - '8123:8123'
+      - '9000:9000'
+    depends_on:
+      - clickhouse-keeper
+  clickhouse-keeper:
+    image: clickhouse/clickhouse-keeper:24-alpine
+    volumes:
+      - ./storage/clickhouse/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
+    ports:
+      - '9181:9181'

@@ -1,7 +1,7 @@
 import { EventType } from '../constants';
 
 export interface EventPayload {
-  clientId: string;
+  versionId: string;
   eventType: EventType;
   payload?: object;
 }

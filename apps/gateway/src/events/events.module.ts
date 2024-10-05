@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ConsumerGroup } from 'shared';
 
 import { AppConfigService } from '../app-config';
 import { CLIENT_KAFKA_TOKEN } from './events.constant';
 import { EventsController } from './events.controller';
-import { EventService } from './events.service';
+import { EventsService } from './events.service';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { EventService } from './events.service';
                 brokers: [`${host}:${port}`],
               },
               consumer: {
-                groupId: 'event-worker',
+                groupId: ConsumerGroup.EventProcessGroup,
               },
             },
           };
@@ -34,6 +35,6 @@ import { EventService } from './events.service';
     ]),
   ],
   controllers: [EventsController],
-  providers: [EventService],
+  providers: [EventsService],
 })
 export class EventsModule {}

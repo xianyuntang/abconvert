@@ -6,7 +6,7 @@ import { AddEventRequestDto } from './dto';
 import { CLIENT_KAFKA_TOKEN } from './events.constant';
 
 @Injectable()
-export class EventService implements OnModuleInit {
+export class EventsService implements OnModuleInit {
   constructor(
     @Inject(CLIENT_KAFKA_TOKEN) private readonly clientKafka: ClientKafka
   ) {}
@@ -17,7 +17,7 @@ export class EventService implements OnModuleInit {
 
   addEvent(dto: AddEventRequestDto) {
     this.clientKafka.emit<string, EventPayload>('store-customer-event', {
-      clientId: dto.clientId,
+      versionId: dto.versionId,
       eventType: dto.eventType,
       payload: dto.payload,
     });

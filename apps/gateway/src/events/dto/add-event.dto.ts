@@ -3,7 +3,7 @@ import { AddEventRequest, EventType } from 'shared';
 
 export class AddEventRequestDto implements AddEventRequest {
   @IsString()
-  clientId!: string;
+  versionId!: string;
 
   @IsEnum(EventType)
   eventType!: EventType;

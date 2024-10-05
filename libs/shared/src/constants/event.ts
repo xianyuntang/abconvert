@@ -3,4 +3,5 @@ export enum EventType {
   Wait = 'wait',
   Scroll = 'scroll',
   Click = 'click',
+  Move = 'move',
 }

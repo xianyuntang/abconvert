@@ -20,8 +20,20 @@ export class AppConfigService {
   get services() {
     return {
       kafka: {
-        host: this.configService.getOrThrow<number>(EnvField.KAFKA_HOST),
+        host: this.configService.getOrThrow<string>(EnvField.KAFKA_HOST),
         port: this.configService.getOrThrow<number>(EnvField.KAFKA_PORT),
+      },
+      clickhouse: {
+        url: this.configService.getOrThrow<string>(EnvField.CLICKHOUSE_URL),
+        username: this.configService.getOrThrow<string>(
+          EnvField.CLICKHOUSE_USERNAME
+        ),
+        password: this.configService.getOrThrow<string>(
+          EnvField.CLICKHOUSE_PASSWORD
+        ),
+        database: this.configService.getOrThrow<string>(
+          EnvField.CLICKHOUSE_DATABASE
+        ),
       },
     };
   }
