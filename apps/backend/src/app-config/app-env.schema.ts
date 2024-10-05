@@ -7,20 +7,25 @@ export class AppEnvSchema {
   @IsEnum(Environment)
   [EnvField.NODE_ENV]!: Environment;
 
+  @IsNumber()
+  @Min(1001)
+  @Max(65535)
+  [EnvField.SERVER_PORT]!: number;
+
   @IsUrl({ require_protocol: false, require_tld: false })
-  [EnvField.PG_HOST]!: string;
+  [EnvField.DB_HOST]!: string;
 
   @IsNumber()
   @Min(0)
   @Max(65535)
-  [EnvField.PG_PORT]!: number;
+  [EnvField.DB_PORT]!: number;
 
   @IsString()
-  [EnvField.PG_USERNAME]!: string;
+  [EnvField.DB_USERNAME]!: string;
 
   @IsString()
-  [EnvField.PG_PASSWORD]!: string;
+  [EnvField.DB_PASSWORD]!: string;
 
   @IsString()
-  [EnvField.PG_DATABASE]!: string;
+  [EnvField.DB_DATABASE]!: string;
 }

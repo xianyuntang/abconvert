@@ -1,5 +1,6 @@
 export enum EnvField {
   NODE_ENV = 'NODE_ENV',
+  SERVER_PORT = 'SERVER_PORT',
   DB_HOST = 'DB_HOST',
   DB_PORT = 'DB_PORT',
   DB_USERNAME = 'DB_USERNAME',

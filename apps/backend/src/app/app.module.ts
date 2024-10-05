@@ -1,10 +1,37 @@
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { Module } from '@nestjs/common';
 
+import { AppConfigModule, AppConfigService } from '../app-config';
+import * as entities from '../db/entities';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-  imports: [],
+  imports: [
+    AppConfigModule,
+    MikroOrmModule.forRootAsync({
+      useFactory: (appConfigService: AppConfigService) => {
+        const {
+          env: { isProduction },
+          services: {
+            db: { host, port, database, password, username },
+          },
+        } = appConfigService;
+        return {
+          driver: PostgreSqlDriver,
+          host: host,
+          port: port,
+          dbName: database,
+          user: username,
+          password: password,
+          entities: [...Object.values(entities)],
+          debug: !isProduction,
+        };
+      },
+      inject: [AppConfigService],
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

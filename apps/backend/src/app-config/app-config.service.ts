@@ -17,6 +17,12 @@ export class AppConfigService {
     };
   }
 
+  get server() {
+    return {
+      port: this.configService.getOrThrow<number>(EnvField.SERVER_PORT),
+    };
+  }
+
   get services() {
     return {
       db: {

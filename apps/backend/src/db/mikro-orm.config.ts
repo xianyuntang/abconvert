@@ -1,30 +1,33 @@
+import { defineConfig } from '@mikro-orm/core';
 import { Migrator } from '@mikro-orm/migrations';
-import { defineConfig } from '@mikro-orm/postgresql';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { SeedManager } from '@mikro-orm/seeder';
 import dotenv from 'dotenv';
 import path from 'path';
 
 import { PROJECT_ROOT } from '../app';
 import { MIGRATION_ROOT, SEEDER_ROOT } from './db.constant';
+import * as entities from './entities';
 import { migrationsList } from './migrations';
 
 dotenv.config({
-  path: path.resolve(PROJECT_ROOT, `.env.${process.env.NODE_ENV}.local`),
+  path: path.resolve(PROJECT_ROOT, `.env.local`),
 });
 dotenv.config({
-  path: path.resolve(PROJECT_ROOT, `.env.${process.env.NODE_ENV}`),
+  path: path.resolve(PROJECT_ROOT, `.env`),
 });
 
 const config = defineConfig({
   debug: true,
   extensions: [Migrator, SeedManager],
-  entities: [],
-  host: process.env.DATABASE_HOST,
-  dbName: process.env.DATABASE_DB_NAME,
+  driver: PostgreSqlDriver,
+  entities: [...Object.values(entities)],
+  host: process.env.DB_HOST,
+  dbName: process.env.DB_DATABASE,
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  port: parseInt(process.env.DATABASE_PORT!),
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
+  port: parseInt(process.env.DB_PORT!),
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
   migrations: {
     path: MIGRATION_ROOT, // path to the folder with migrations
     migrationsList,
