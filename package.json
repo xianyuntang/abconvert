@@ -6,11 +6,16 @@
     "frontend:dev": "nx run frontend:dev",
     "gateway:dev": "nx run gateway:serve",
     "event-worker:dev": "nx run event-worker:serve",
+    "backend:dev": "nx run backend:serve",
     "lint": "nx run-many --target=lint --all",
     "prepare": "husky"
   },
   "dependencies": {
     "@clickhouse/client": "^1.6.0",
+    "@mikro-orm/core": "^6.3.12",
+    "@mikro-orm/migrations": "^6.3.12",
+    "@mikro-orm/postgresql": "^6.3.12",
+    "@mikro-orm/seeder": "^6.3.12",
     "@nestjs/common": "^10.0.2",
     "@nestjs/config": "^3.2.3",
     "@nestjs/core": "^10.0.2",
