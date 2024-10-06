@@ -1,35 +1,25 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
-import { NestApplication, NestFactory } from '@nestjs/core';
+import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import path from 'path';
 
-import { AppModule } from './app/app.module';
-import { AppConfigService } from './app-config';
+import { AppModule } from './app';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestApplication>(AppModule);
-  const appConfigService = app.get(AppConfigService);
-
-  const {
-    server: { port },
-    env: { isProduction },
-  } = appConfigService;
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      disableErrorMessages: isProduction,
-      enableDebugMessages: !isProduction,
-      transform: true,
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      forbidUnknownValues: true,
-    })
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.GRPC,
+      options: {
+        package: 'backend',
+        protoPath: path.resolve(__dirname, 'proto', 'backend.proto'),
+        url: '0.0.0.0:50051',
+      },
+    }
   );
 
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  await app.listen(port);
-  Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
-  );
+  Logger.log(`🚀 Application is running 0.0.0.0:50051`);
+  await app.listen();
 }
 
 void bootstrap();

@@ -29,6 +29,11 @@ export class AppConfigService {
         host: this.configService.getOrThrow<number>(EnvField.KAFKA_HOST),
         port: this.configService.getOrThrow<number>(EnvField.KAFKA_PORT),
       },
+      backend: {
+        grpcUrl: this.configService.getOrThrow<string>(
+          EnvField.BACKEND_GRPC_URL
+        ),
+      },
     };
   }
 }

@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 
 import { AppConfigModule, AppConfigService } from '../app-config';
 import * as entities from '../db/entities';
+import { VersionsModule } from '../versions';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -31,6 +32,7 @@ import { AppService } from './app.service';
       },
       inject: [AppConfigService],
     }),
+    VersionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

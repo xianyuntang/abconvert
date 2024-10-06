@@ -7,11 +7,6 @@ export class AppEnvSchema {
   @IsEnum(Environment)
   [EnvField.NODE_ENV]!: Environment;
 
-  @IsNumber()
-  @Min(1001)
-  @Max(65535)
-  [EnvField.SERVER_PORT]!: number;
-
   @IsUrl({ require_protocol: false, require_tld: false })
   [EnvField.DB_HOST]!: string;
 

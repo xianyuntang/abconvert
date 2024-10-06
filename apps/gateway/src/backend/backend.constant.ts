@@ -1,0 +1,1 @@
+export const BACKEND_PACKAGE_TOKEN = Symbol('BACKEND_PACKAGE_TOKEN');

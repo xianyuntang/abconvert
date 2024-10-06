@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package backend;
+
+message CreateVersionRequest {
+  string product = 1;
+  repeated Detail details = 2;
+
+  message Detail {
+    string key = 1;
+    string value = 2;
+  }
+}
+
+message CreateVersionResponse {
+  string message = 1;
+}
+
+message GetRandomVersionRequest {
+  string product = 1;
+}
+
+message GetRandomVersionResponse {
+  string id = 1;
+  string product = 2;
+  string createdAt = 3;
+  string updatedAt = 4;
+  repeated Detail details = 5;
+
+  message Detail {
+    string id = 1;
+    string key = 2;
+    string value = 3;
+    string createdAt = 4;
+    string updatedAt = 5;
+  }
+}
+
+service VersionService {
+  rpc CreateVersion (CreateVersionRequest) returns (CreateVersionResponse);
+  rpc GetRandomVersion (GetRandomVersionRequest) returns (GetRandomVersionResponse);
+}

@@ -8,11 +8,14 @@
     "event-worker:dev": "nx run event-worker:serve",
     "backend:dev": "nx run backend:serve",
     "backend:build": "nx run backend:build",
+    "generate:proto": "protoc  --ts_out=./libs/shared/src/grpc/gen --proto_path=./libs/shared/src/grpc  $(find ./libs/shared/src/grpc -name '*.proto')",
     "lint": "nx run-many --target=lint --all",
     "prepare": "husky"
   },
   "dependencies": {
     "@clickhouse/client": "^1.6.0",
+    "@grpc/grpc-js": "^1.12.0",
+    "@grpc/proto-loader": "^0.7.13",
     "@mikro-orm/core": "^6.3.12",
     "@mikro-orm/migrations": "^6.3.12",
     "@mikro-orm/nestjs": "^6.0.2",
@@ -53,6 +56,7 @@
     "@nx/web": "19.8.2",
     "@nx/webpack": "19.8.2",
     "@playwright/test": "^1.36.0",
+    "@protobuf-ts/plugin": "^2.9.4",
     "@swc-node/register": "1.9.2",
     "@swc/core": "1.5.7",
     "@swc/helpers": "0.5.13",

@@ -1,13 +1,13 @@
-import { Collection, Entity, OneToMany, PrimaryKey } from '@mikro-orm/core';
-import { nanoid } from 'nanoid';
+import { Collection, Entity, OneToMany, Property } from '@mikro-orm/core';
 
+import { CustomBaseEntity } from '../custom-base.entity';
 import { VersionRepository } from '../repositories';
 import { VersionDetail } from './version-detail.entity';
 
 @Entity({ tableName: 'versions', repository: () => VersionRepository })
-export class Version {
-  @PrimaryKey({ length: 21 })
-  id = nanoid();
+export class Version extends CustomBaseEntity {
+  @Property()
+  product!: string;
 
   @OneToMany(() => VersionDetail, 'version')
   details = new Collection<VersionDetail>(this);

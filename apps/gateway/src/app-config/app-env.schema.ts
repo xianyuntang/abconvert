@@ -19,4 +19,7 @@ export class AppEnvSchema {
   @Min(0)
   @Max(65535)
   [EnvField.KAFKA_PORT]!: number;
+
+  @IsUrl({ require_protocol: false, require_tld: false })
+  [EnvField.BACKEND_GRPC_URL]!: string;
 }

@@ -1,6 +1,6 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
-import { nanoid } from 'nanoid';
+import { Entity, ManyToOne, Property } from '@mikro-orm/core';
 
+import { CustomBaseEntity } from '../custom-base.entity';
 import { VersionDetailRepository } from '../repositories';
 import { Version } from './version.entity';
 
@@ -8,10 +8,7 @@ import { Version } from './version.entity';
   tableName: 'version_details',
   repository: () => VersionDetailRepository,
 })
-export class VersionDetail {
-  @PrimaryKey({ length: 21 })
-  id = nanoid();
-
+export class VersionDetail extends CustomBaseEntity {
   @Property()
   key!: string;
 
