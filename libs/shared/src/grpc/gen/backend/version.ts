@@ -12,61 +12,39 @@ import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
 /**
- * @generated from protobuf message backend.CreateVersionRequest
+ * @generated from protobuf message backend.GetVersionRequest
  */
-export interface CreateVersionRequest {
+export interface GetVersionRequest {
     /**
-     * @generated from protobuf field: string product = 1;
+     * @generated from protobuf field: string productId = 1;
      */
-    product: string;
-    /**
-     * @generated from protobuf field: repeated backend.CreateVersionRequest.Detail details = 2;
-     */
-    details: CreateVersionRequest_Detail[];
+    productId: string;
 }
 /**
- * @generated from protobuf message backend.CreateVersionRequest.Detail
+ * @generated from protobuf message backend.GetSpecifiedVersionRequest
  */
-export interface CreateVersionRequest_Detail {
+export interface GetSpecifiedVersionRequest {
     /**
-     * @generated from protobuf field: string key = 1;
+     * @generated from protobuf field: string productId = 1;
      */
-    key: string;
+    productId: string;
     /**
-     * @generated from protobuf field: string value = 2;
+     * @generated from protobuf field: string versionId = 2;
      */
-    value: string;
+    versionId: string;
 }
 /**
- * @generated from protobuf message backend.CreateVersionResponse
+ * @generated from protobuf message backend.GetVersionResponse
  */
-export interface CreateVersionResponse {
-    /**
-     * @generated from protobuf field: string message = 1;
-     */
-    message: string;
-}
-/**
- * @generated from protobuf message backend.GetRandomVersionRequest
- */
-export interface GetRandomVersionRequest {
-    /**
-     * @generated from protobuf field: string product = 1;
-     */
-    product: string;
-}
-/**
- * @generated from protobuf message backend.GetRandomVersionResponse
- */
-export interface GetRandomVersionResponse {
+export interface GetVersionResponse {
     /**
      * @generated from protobuf field: string id = 1;
      */
     id: string;
     /**
-     * @generated from protobuf field: string product = 2;
+     * @generated from protobuf field: string productId = 2;
      */
-    product: string;
+    productId: string;
     /**
      * @generated from protobuf field: string createdAt = 3;
      */
@@ -76,14 +54,82 @@ export interface GetRandomVersionResponse {
      */
     updatedAt: string;
     /**
-     * @generated from protobuf field: repeated backend.GetRandomVersionResponse.Detail details = 5;
+     * @generated from protobuf field: repeated backend.GetVersionResponse.Detail details = 5;
      */
-    details: GetRandomVersionResponse_Detail[];
+    details: GetVersionResponse_Detail[];
 }
 /**
- * @generated from protobuf message backend.GetRandomVersionResponse.Detail
+ * @generated from protobuf message backend.GetVersionResponse.Detail
  */
-export interface GetRandomVersionResponse_Detail {
+export interface GetVersionResponse_Detail {
+    /**
+     * @generated from protobuf field: string id = 1;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: string key = 2;
+     */
+    key: string;
+    /**
+     * @generated from protobuf field: string value = 3;
+     */
+    value: string;
+    /**
+     * @generated from protobuf field: string createdAt = 4;
+     */
+    createdAt: string;
+    /**
+     * @generated from protobuf field: string updatedAt = 5;
+     */
+    updatedAt: string;
+}
+/**
+ * @generated from protobuf message backend.ListVersionsRequest
+ */
+export interface ListVersionsRequest {
+    /**
+     * @generated from protobuf field: string productId = 1;
+     */
+    productId: string;
+}
+/**
+ * @generated from protobuf message backend.ListVersionsResponse
+ */
+export interface ListVersionsResponse {
+    /**
+     * @generated from protobuf field: repeated backend.ListVersionsResponse.Version data = 1;
+     */
+    data: ListVersionsResponse_Version[];
+}
+/**
+ * @generated from protobuf message backend.ListVersionsResponse.Version
+ */
+export interface ListVersionsResponse_Version {
+    /**
+     * @generated from protobuf field: string id = 1;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: string productId = 2;
+     */
+    productId: string;
+    /**
+     * @generated from protobuf field: string createdAt = 3;
+     */
+    createdAt: string;
+    /**
+     * @generated from protobuf field: string updatedAt = 4;
+     */
+    updatedAt: string;
+    /**
+     * @generated from protobuf field: repeated backend.ListVersionsResponse.Version.Detail details = 5;
+     */
+    details: ListVersionsResponse_Version_Detail[];
+}
+/**
+ * @generated from protobuf message backend.ListVersionsResponse.Version.Detail
+ */
+export interface ListVersionsResponse_Version_Detail {
     /**
      * @generated from protobuf field: string id = 1;
      */
@@ -106,31 +152,26 @@ export interface GetRandomVersionResponse_Detail {
     updatedAt: string;
 }
 // @generated message type with reflection information, may provide speed optimized methods
-class CreateVersionRequest$Type extends MessageType<CreateVersionRequest> {
+class GetVersionRequest$Type extends MessageType<GetVersionRequest> {
     constructor() {
-        super("backend.CreateVersionRequest", [
-            { no: 1, name: "product", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "details", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => CreateVersionRequest_Detail }
+        super("backend.GetVersionRequest", [
+            { no: 1, name: "productId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<CreateVersionRequest>): CreateVersionRequest {
+    create(value?: PartialMessage<GetVersionRequest>): GetVersionRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.product = "";
-        message.details = [];
+        message.productId = "";
         if (value !== undefined)
-            reflectionMergePartial<CreateVersionRequest>(this, message, value);
+            reflectionMergePartial<GetVersionRequest>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CreateVersionRequest): CreateVersionRequest {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetVersionRequest): GetVersionRequest {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string product */ 1:
-                    message.product = reader.string();
-                    break;
-                case /* repeated backend.CreateVersionRequest.Detail details */ 2:
-                    message.details.push(CreateVersionRequest_Detail.internalBinaryRead(reader, reader.uint32(), options));
+                case /* string productId */ 1:
+                    message.productId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -143,13 +184,10 @@ class CreateVersionRequest$Type extends MessageType<CreateVersionRequest> {
         }
         return message;
     }
-    internalBinaryWrite(message: CreateVersionRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string product = 1; */
-        if (message.product !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.product);
-        /* repeated backend.CreateVersionRequest.Detail details = 2; */
-        for (let i = 0; i < message.details.length; i++)
-            CreateVersionRequest_Detail.internalBinaryWrite(message.details[i], writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+    internalBinaryWrite(message: GetVersionRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string productId = 1; */
+        if (message.productId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.productId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -157,35 +195,35 @@ class CreateVersionRequest$Type extends MessageType<CreateVersionRequest> {
     }
 }
 /**
- * @generated MessageType for protobuf message backend.CreateVersionRequest
+ * @generated MessageType for protobuf message backend.GetVersionRequest
  */
-export const CreateVersionRequest = new CreateVersionRequest$Type();
+export const GetVersionRequest = new GetVersionRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CreateVersionRequest_Detail$Type extends MessageType<CreateVersionRequest_Detail> {
+class GetSpecifiedVersionRequest$Type extends MessageType<GetSpecifiedVersionRequest> {
     constructor() {
-        super("backend.CreateVersionRequest.Detail", [
-            { no: 1, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "value", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        super("backend.GetSpecifiedVersionRequest", [
+            { no: 1, name: "productId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "versionId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<CreateVersionRequest_Detail>): CreateVersionRequest_Detail {
+    create(value?: PartialMessage<GetSpecifiedVersionRequest>): GetSpecifiedVersionRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.key = "";
-        message.value = "";
+        message.productId = "";
+        message.versionId = "";
         if (value !== undefined)
-            reflectionMergePartial<CreateVersionRequest_Detail>(this, message, value);
+            reflectionMergePartial<GetSpecifiedVersionRequest>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CreateVersionRequest_Detail): CreateVersionRequest_Detail {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetSpecifiedVersionRequest): GetSpecifiedVersionRequest {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string key */ 1:
-                    message.key = reader.string();
+                case /* string productId */ 1:
+                    message.productId = reader.string();
                     break;
-                case /* string value */ 2:
-                    message.value = reader.string();
+                case /* string versionId */ 2:
+                    message.versionId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -198,13 +236,13 @@ class CreateVersionRequest_Detail$Type extends MessageType<CreateVersionRequest_
         }
         return message;
     }
-    internalBinaryWrite(message: CreateVersionRequest_Detail, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string key = 1; */
-        if (message.key !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.key);
-        /* string value = 2; */
-        if (message.value !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.value);
+    internalBinaryWrite(message: GetSpecifiedVersionRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string productId = 1; */
+        if (message.productId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.productId);
+        /* string versionId = 2; */
+        if (message.versionId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.versionId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -212,126 +250,32 @@ class CreateVersionRequest_Detail$Type extends MessageType<CreateVersionRequest_
     }
 }
 /**
- * @generated MessageType for protobuf message backend.CreateVersionRequest.Detail
+ * @generated MessageType for protobuf message backend.GetSpecifiedVersionRequest
  */
-export const CreateVersionRequest_Detail = new CreateVersionRequest_Detail$Type();
+export const GetSpecifiedVersionRequest = new GetSpecifiedVersionRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CreateVersionResponse$Type extends MessageType<CreateVersionResponse> {
+class GetVersionResponse$Type extends MessageType<GetVersionResponse> {
     constructor() {
-        super("backend.CreateVersionResponse", [
-            { no: 1, name: "message", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-    create(value?: PartialMessage<CreateVersionResponse>): CreateVersionResponse {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.message = "";
-        if (value !== undefined)
-            reflectionMergePartial<CreateVersionResponse>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CreateVersionResponse): CreateVersionResponse {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* string message */ 1:
-                    message.message = reader.string();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: CreateVersionResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string message = 1; */
-        if (message.message !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.message);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message backend.CreateVersionResponse
- */
-export const CreateVersionResponse = new CreateVersionResponse$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetRandomVersionRequest$Type extends MessageType<GetRandomVersionRequest> {
-    constructor() {
-        super("backend.GetRandomVersionRequest", [
-            { no: 1, name: "product", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-    create(value?: PartialMessage<GetRandomVersionRequest>): GetRandomVersionRequest {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.product = "";
-        if (value !== undefined)
-            reflectionMergePartial<GetRandomVersionRequest>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetRandomVersionRequest): GetRandomVersionRequest {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* string product */ 1:
-                    message.product = reader.string();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: GetRandomVersionRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string product = 1; */
-        if (message.product !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.product);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message backend.GetRandomVersionRequest
- */
-export const GetRandomVersionRequest = new GetRandomVersionRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class GetRandomVersionResponse$Type extends MessageType<GetRandomVersionResponse> {
-    constructor() {
-        super("backend.GetRandomVersionResponse", [
+        super("backend.GetVersionResponse", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "product", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "productId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "createdAt", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "updatedAt", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "details", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GetRandomVersionResponse_Detail }
+            { no: 5, name: "details", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GetVersionResponse_Detail }
         ]);
     }
-    create(value?: PartialMessage<GetRandomVersionResponse>): GetRandomVersionResponse {
+    create(value?: PartialMessage<GetVersionResponse>): GetVersionResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.id = "";
-        message.product = "";
+        message.productId = "";
         message.createdAt = "";
         message.updatedAt = "";
         message.details = [];
         if (value !== undefined)
-            reflectionMergePartial<GetRandomVersionResponse>(this, message, value);
+            reflectionMergePartial<GetVersionResponse>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetRandomVersionResponse): GetRandomVersionResponse {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetVersionResponse): GetVersionResponse {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
@@ -339,8 +283,8 @@ class GetRandomVersionResponse$Type extends MessageType<GetRandomVersionResponse
                 case /* string id */ 1:
                     message.id = reader.string();
                     break;
-                case /* string product */ 2:
-                    message.product = reader.string();
+                case /* string productId */ 2:
+                    message.productId = reader.string();
                     break;
                 case /* string createdAt */ 3:
                     message.createdAt = reader.string();
@@ -348,8 +292,8 @@ class GetRandomVersionResponse$Type extends MessageType<GetRandomVersionResponse
                 case /* string updatedAt */ 4:
                     message.updatedAt = reader.string();
                     break;
-                case /* repeated backend.GetRandomVersionResponse.Detail details */ 5:
-                    message.details.push(GetRandomVersionResponse_Detail.internalBinaryRead(reader, reader.uint32(), options));
+                case /* repeated backend.GetVersionResponse.Detail details */ 5:
+                    message.details.push(GetVersionResponse_Detail.internalBinaryRead(reader, reader.uint32(), options));
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -362,22 +306,22 @@ class GetRandomVersionResponse$Type extends MessageType<GetRandomVersionResponse
         }
         return message;
     }
-    internalBinaryWrite(message: GetRandomVersionResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    internalBinaryWrite(message: GetVersionResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
-        /* string product = 2; */
-        if (message.product !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.product);
+        /* string productId = 2; */
+        if (message.productId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.productId);
         /* string createdAt = 3; */
         if (message.createdAt !== "")
             writer.tag(3, WireType.LengthDelimited).string(message.createdAt);
         /* string updatedAt = 4; */
         if (message.updatedAt !== "")
             writer.tag(4, WireType.LengthDelimited).string(message.updatedAt);
-        /* repeated backend.GetRandomVersionResponse.Detail details = 5; */
+        /* repeated backend.GetVersionResponse.Detail details = 5; */
         for (let i = 0; i < message.details.length; i++)
-            GetRandomVersionResponse_Detail.internalBinaryWrite(message.details[i], writer.tag(5, WireType.LengthDelimited).fork(), options).join();
+            GetVersionResponse_Detail.internalBinaryWrite(message.details[i], writer.tag(5, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -385,13 +329,13 @@ class GetRandomVersionResponse$Type extends MessageType<GetRandomVersionResponse
     }
 }
 /**
- * @generated MessageType for protobuf message backend.GetRandomVersionResponse
+ * @generated MessageType for protobuf message backend.GetVersionResponse
  */
-export const GetRandomVersionResponse = new GetRandomVersionResponse$Type();
+export const GetVersionResponse = new GetVersionResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class GetRandomVersionResponse_Detail$Type extends MessageType<GetRandomVersionResponse_Detail> {
+class GetVersionResponse_Detail$Type extends MessageType<GetVersionResponse_Detail> {
     constructor() {
-        super("backend.GetRandomVersionResponse.Detail", [
+        super("backend.GetVersionResponse.Detail", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "value", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -399,7 +343,7 @@ class GetRandomVersionResponse_Detail$Type extends MessageType<GetRandomVersionR
             { no: 5, name: "updatedAt", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<GetRandomVersionResponse_Detail>): GetRandomVersionResponse_Detail {
+    create(value?: PartialMessage<GetVersionResponse_Detail>): GetVersionResponse_Detail {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.id = "";
         message.key = "";
@@ -407,10 +351,10 @@ class GetRandomVersionResponse_Detail$Type extends MessageType<GetRandomVersionR
         message.createdAt = "";
         message.updatedAt = "";
         if (value !== undefined)
-            reflectionMergePartial<GetRandomVersionResponse_Detail>(this, message, value);
+            reflectionMergePartial<GetVersionResponse_Detail>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetRandomVersionResponse_Detail): GetRandomVersionResponse_Detail {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetVersionResponse_Detail): GetVersionResponse_Detail {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
@@ -441,7 +385,7 @@ class GetRandomVersionResponse_Detail$Type extends MessageType<GetRandomVersionR
         }
         return message;
     }
-    internalBinaryWrite(message: GetRandomVersionResponse_Detail, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    internalBinaryWrite(message: GetVersionResponse_Detail, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* string id = 1; */
         if (message.id !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.id);
@@ -464,13 +408,267 @@ class GetRandomVersionResponse_Detail$Type extends MessageType<GetRandomVersionR
     }
 }
 /**
- * @generated MessageType for protobuf message backend.GetRandomVersionResponse.Detail
+ * @generated MessageType for protobuf message backend.GetVersionResponse.Detail
  */
-export const GetRandomVersionResponse_Detail = new GetRandomVersionResponse_Detail$Type();
+export const GetVersionResponse_Detail = new GetVersionResponse_Detail$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListVersionsRequest$Type extends MessageType<ListVersionsRequest> {
+    constructor() {
+        super("backend.ListVersionsRequest", [
+            { no: 1, name: "productId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<ListVersionsRequest>): ListVersionsRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.productId = "";
+        if (value !== undefined)
+            reflectionMergePartial<ListVersionsRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListVersionsRequest): ListVersionsRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string productId */ 1:
+                    message.productId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListVersionsRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string productId = 1; */
+        if (message.productId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.productId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message backend.ListVersionsRequest
+ */
+export const ListVersionsRequest = new ListVersionsRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListVersionsResponse$Type extends MessageType<ListVersionsResponse> {
+    constructor() {
+        super("backend.ListVersionsResponse", [
+            { no: 1, name: "data", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => ListVersionsResponse_Version }
+        ]);
+    }
+    create(value?: PartialMessage<ListVersionsResponse>): ListVersionsResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.data = [];
+        if (value !== undefined)
+            reflectionMergePartial<ListVersionsResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListVersionsResponse): ListVersionsResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated backend.ListVersionsResponse.Version data */ 1:
+                    message.data.push(ListVersionsResponse_Version.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListVersionsResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated backend.ListVersionsResponse.Version data = 1; */
+        for (let i = 0; i < message.data.length; i++)
+            ListVersionsResponse_Version.internalBinaryWrite(message.data[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message backend.ListVersionsResponse
+ */
+export const ListVersionsResponse = new ListVersionsResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListVersionsResponse_Version$Type extends MessageType<ListVersionsResponse_Version> {
+    constructor() {
+        super("backend.ListVersionsResponse.Version", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "productId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "createdAt", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "updatedAt", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "details", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => ListVersionsResponse_Version_Detail }
+        ]);
+    }
+    create(value?: PartialMessage<ListVersionsResponse_Version>): ListVersionsResponse_Version {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        message.productId = "";
+        message.createdAt = "";
+        message.updatedAt = "";
+        message.details = [];
+        if (value !== undefined)
+            reflectionMergePartial<ListVersionsResponse_Version>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListVersionsResponse_Version): ListVersionsResponse_Version {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string id */ 1:
+                    message.id = reader.string();
+                    break;
+                case /* string productId */ 2:
+                    message.productId = reader.string();
+                    break;
+                case /* string createdAt */ 3:
+                    message.createdAt = reader.string();
+                    break;
+                case /* string updatedAt */ 4:
+                    message.updatedAt = reader.string();
+                    break;
+                case /* repeated backend.ListVersionsResponse.Version.Detail details */ 5:
+                    message.details.push(ListVersionsResponse_Version_Detail.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListVersionsResponse_Version, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 1; */
+        if (message.id !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* string productId = 2; */
+        if (message.productId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.productId);
+        /* string createdAt = 3; */
+        if (message.createdAt !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.createdAt);
+        /* string updatedAt = 4; */
+        if (message.updatedAt !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.updatedAt);
+        /* repeated backend.ListVersionsResponse.Version.Detail details = 5; */
+        for (let i = 0; i < message.details.length; i++)
+            ListVersionsResponse_Version_Detail.internalBinaryWrite(message.details[i], writer.tag(5, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message backend.ListVersionsResponse.Version
+ */
+export const ListVersionsResponse_Version = new ListVersionsResponse_Version$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListVersionsResponse_Version_Detail$Type extends MessageType<ListVersionsResponse_Version_Detail> {
+    constructor() {
+        super("backend.ListVersionsResponse.Version.Detail", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "key", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "value", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "createdAt", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "updatedAt", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<ListVersionsResponse_Version_Detail>): ListVersionsResponse_Version_Detail {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        message.key = "";
+        message.value = "";
+        message.createdAt = "";
+        message.updatedAt = "";
+        if (value !== undefined)
+            reflectionMergePartial<ListVersionsResponse_Version_Detail>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: ListVersionsResponse_Version_Detail): ListVersionsResponse_Version_Detail {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string id */ 1:
+                    message.id = reader.string();
+                    break;
+                case /* string key */ 2:
+                    message.key = reader.string();
+                    break;
+                case /* string value */ 3:
+                    message.value = reader.string();
+                    break;
+                case /* string createdAt */ 4:
+                    message.createdAt = reader.string();
+                    break;
+                case /* string updatedAt */ 5:
+                    message.updatedAt = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: ListVersionsResponse_Version_Detail, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 1; */
+        if (message.id !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* string key = 2; */
+        if (message.key !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.key);
+        /* string value = 3; */
+        if (message.value !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.value);
+        /* string createdAt = 4; */
+        if (message.createdAt !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.createdAt);
+        /* string updatedAt = 5; */
+        if (message.updatedAt !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.updatedAt);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message backend.ListVersionsResponse.Version.Detail
+ */
+export const ListVersionsResponse_Version_Detail = new ListVersionsResponse_Version_Detail$Type();
 /**
  * @generated ServiceType for protobuf service backend.VersionService
  */
 export const VersionService = new ServiceType("backend.VersionService", [
-    { name: "CreateVersion", options: {}, I: CreateVersionRequest, O: CreateVersionResponse },
-    { name: "GetRandomVersion", options: {}, I: GetRandomVersionRequest, O: GetRandomVersionResponse }
+    { name: "GetVersion", options: {}, I: GetSpecifiedVersionRequest, O: GetVersionResponse },
+    { name: "GetPrimaryVersion", options: {}, I: GetVersionRequest, O: GetVersionResponse },
+    { name: "GetRandomVersion", options: {}, I: GetVersionRequest, O: GetVersionResponse },
+    { name: "ListVersions", options: {}, I: ListVersionsRequest, O: ListVersionsResponse }
 ]);

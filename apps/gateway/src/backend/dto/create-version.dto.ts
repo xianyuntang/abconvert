@@ -2,15 +2,12 @@ import { Type } from 'class-transformer';
 import { IsString, ValidateNested } from 'class-validator';
 
 export class CreateVersionRequestDto {
-  @IsString()
-  product!: string;
-
   @ValidateNested()
-  @Type(() => Details)
-  details!: Details[];
+  @Type(() => Detail)
+  details!: Detail[];
 }
 
-export class Details {
+export class Detail {
   @IsString()
   key!: string;
 

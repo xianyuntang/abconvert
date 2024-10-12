@@ -4,11 +4,12 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { VersionService } from "./version";
-import type { GetRandomVersionResponse } from "./version";
-import type { GetRandomVersionRequest } from "./version";
+import type { ListVersionsResponse } from "./version";
+import type { ListVersionsRequest } from "./version";
+import type { GetVersionRequest } from "./version";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
-import type { CreateVersionResponse } from "./version";
-import type { CreateVersionRequest } from "./version";
+import type { GetVersionResponse } from "./version";
+import type { GetSpecifiedVersionRequest } from "./version";
 import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
 import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
@@ -16,13 +17,21 @@ import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
  */
 export interface IVersionServiceClient {
     /**
-     * @generated from protobuf rpc: CreateVersion(backend.CreateVersionRequest) returns (backend.CreateVersionResponse);
+     * @generated from protobuf rpc: GetVersion(backend.GetSpecifiedVersionRequest) returns (backend.GetVersionResponse);
      */
-    createVersion(input: CreateVersionRequest, options?: RpcOptions): UnaryCall<CreateVersionRequest, CreateVersionResponse>;
+    getVersion(input: GetSpecifiedVersionRequest, options?: RpcOptions): UnaryCall<GetSpecifiedVersionRequest, GetVersionResponse>;
     /**
-     * @generated from protobuf rpc: GetRandomVersion(backend.GetRandomVersionRequest) returns (backend.GetRandomVersionResponse);
+     * @generated from protobuf rpc: GetPrimaryVersion(backend.GetVersionRequest) returns (backend.GetVersionResponse);
      */
-    getRandomVersion(input: GetRandomVersionRequest, options?: RpcOptions): UnaryCall<GetRandomVersionRequest, GetRandomVersionResponse>;
+    getPrimaryVersion(input: GetVersionRequest, options?: RpcOptions): UnaryCall<GetVersionRequest, GetVersionResponse>;
+    /**
+     * @generated from protobuf rpc: GetRandomVersion(backend.GetVersionRequest) returns (backend.GetVersionResponse);
+     */
+    getRandomVersion(input: GetVersionRequest, options?: RpcOptions): UnaryCall<GetVersionRequest, GetVersionResponse>;
+    /**
+     * @generated from protobuf rpc: ListVersions(backend.ListVersionsRequest) returns (backend.ListVersionsResponse);
+     */
+    listVersions(input: ListVersionsRequest, options?: RpcOptions): UnaryCall<ListVersionsRequest, ListVersionsResponse>;
 }
 /**
  * @generated from protobuf service backend.VersionService
@@ -34,17 +43,31 @@ export class VersionServiceClient implements IVersionServiceClient, ServiceInfo 
     constructor(private readonly _transport: RpcTransport) {
     }
     /**
-     * @generated from protobuf rpc: CreateVersion(backend.CreateVersionRequest) returns (backend.CreateVersionResponse);
+     * @generated from protobuf rpc: GetVersion(backend.GetSpecifiedVersionRequest) returns (backend.GetVersionResponse);
      */
-    createVersion(input: CreateVersionRequest, options?: RpcOptions): UnaryCall<CreateVersionRequest, CreateVersionResponse> {
+    getVersion(input: GetSpecifiedVersionRequest, options?: RpcOptions): UnaryCall<GetSpecifiedVersionRequest, GetVersionResponse> {
         const method = this.methods[0], opt = this._transport.mergeOptions(options);
-        return stackIntercept<CreateVersionRequest, CreateVersionResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<GetSpecifiedVersionRequest, GetVersionResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: GetRandomVersion(backend.GetRandomVersionRequest) returns (backend.GetRandomVersionResponse);
+     * @generated from protobuf rpc: GetPrimaryVersion(backend.GetVersionRequest) returns (backend.GetVersionResponse);
      */
-    getRandomVersion(input: GetRandomVersionRequest, options?: RpcOptions): UnaryCall<GetRandomVersionRequest, GetRandomVersionResponse> {
+    getPrimaryVersion(input: GetVersionRequest, options?: RpcOptions): UnaryCall<GetVersionRequest, GetVersionResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetRandomVersionRequest, GetRandomVersionResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<GetVersionRequest, GetVersionResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetRandomVersion(backend.GetVersionRequest) returns (backend.GetVersionResponse);
+     */
+    getRandomVersion(input: GetVersionRequest, options?: RpcOptions): UnaryCall<GetVersionRequest, GetVersionResponse> {
+        const method = this.methods[2], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetVersionRequest, GetVersionResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: ListVersions(backend.ListVersionsRequest) returns (backend.ListVersionsResponse);
+     */
+    listVersions(input: ListVersionsRequest, options?: RpcOptions): UnaryCall<ListVersionsRequest, ListVersionsResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<ListVersionsRequest, ListVersionsResponse>("unary", this._transport, method, opt, input);
     }
 }

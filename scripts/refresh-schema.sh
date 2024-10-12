@@ -10,6 +10,7 @@ npm run backend:build
 
 echo "$color>>> Refresh database schema$reset"
 node dist/apps/backend/refresh-schema.js
+node dist/apps/backend/clickhouse-migrate.js
 
 if [ "$1" = "--no-seed" ]; then
   exit

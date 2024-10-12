@@ -35,6 +35,10 @@ module.exports = {
           entryName: 'seed',
           entryPath: 'apps/backend/src/db/scripts/seed.ts',
         },
+        {
+          entryName: 'clickhouse-migrate',
+          entryPath: 'apps/backend/src/clickhouse/scripts/migrate.ts',
+        },
       ],
     }),
     new CopyPlugin({

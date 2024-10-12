@@ -2,30 +2,22 @@ syntax = "proto3";
 
 package backend;
 
-message CreateVersionRequest {
-  string product = 1;
-  repeated Detail details = 2;
-
-  message Detail {
-    string key = 1;
-    string value = 2;
-  }
+message GetVersionRequest {
+  string productId = 1;
 }
 
-message CreateVersionResponse {
-  string message = 1;
+message GetSpecifiedVersionRequest {
+  string productId = 1;
+  string versionId = 2;
 }
 
-message GetRandomVersionRequest {
-  string product = 1;
-}
-
-message GetRandomVersionResponse {
+message GetVersionResponse {
   string id = 1;
-  string product = 2;
+  string productId = 2;
   string createdAt = 3;
   string updatedAt = 4;
   repeated Detail details = 5;
+
 
   message Detail {
     string id = 1;
@@ -36,7 +28,33 @@ message GetRandomVersionResponse {
   }
 }
 
+message ListVersionsRequest{
+  string productId = 1;
+}
+
+message ListVersionsResponse {
+  repeated Version data = 1;
+
+  message Version{
+    string id = 1;
+    string productId = 2;
+    string createdAt = 3;
+    string updatedAt = 4;
+    repeated Detail details = 5;
+
+    message Detail {
+      string id = 1;
+      string key = 2;
+      string value = 3;
+      string createdAt = 4;
+      string updatedAt = 5;
+    }
+  }
+}
+
 service VersionService {
-  rpc CreateVersion (CreateVersionRequest) returns (CreateVersionResponse);
-  rpc GetRandomVersion (GetRandomVersionRequest) returns (GetRandomVersionResponse);
+  rpc GetVersion (GetSpecifiedVersionRequest) returns (GetVersionResponse);
+  rpc GetPrimaryVersion (GetVersionRequest) returns (GetVersionResponse);
+  rpc GetRandomVersion (GetVersionRequest) returns (GetVersionResponse);
+  rpc ListVersions(ListVersionsRequest) returns (ListVersionsResponse);
 }

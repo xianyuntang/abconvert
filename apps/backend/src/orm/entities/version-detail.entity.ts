@@ -12,7 +12,7 @@ export class VersionDetail extends CustomBaseEntity {
   @Property()
   key!: string;
 
-  @Property()
+  @Property({ type: 'text' })
   value!: string;
 
   @ManyToOne(() => Version, { deleteRule: 'cascade' })

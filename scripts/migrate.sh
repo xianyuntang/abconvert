@@ -15,6 +15,7 @@ if [ "$1" = "create" ]; then
 elif [ "$1" = "up" ]; then
   echo "$color>>> Migration up$reset"
   node dist/apps/backend/migrate.js up
+  node dist/apps/backend/clichouse-migrate.js
 elif [ "$1" = "down" ]; then
   echo "$color>>> Migration down$reset"
   node dist/apps/backend/migrate.js down

@@ -1,6 +1,6 @@
 export enum EventType {
   Enter = 'enter',
-  Wait = 'wait',
+  Stay = 'stay',
   Scroll = 'scroll',
   Click = 'click',
   Move = 'move',

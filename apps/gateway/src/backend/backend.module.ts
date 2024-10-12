@@ -4,7 +4,7 @@ import path from 'path';
 
 import { AppConfigService } from '../app-config';
 import { BACKEND_PACKAGE_TOKEN } from './backend.constant';
-import { VersionsController } from './versions';
+import { TestingsController, VersionsController } from './controllers';
 
 @Module({
   imports: [
@@ -32,7 +32,7 @@ import { VersionsController } from './versions';
       ],
     }),
   ],
-  controllers: [VersionsController],
+  controllers: [VersionsController, TestingsController],
   providers: [],
 })
 export class BackendModule {}

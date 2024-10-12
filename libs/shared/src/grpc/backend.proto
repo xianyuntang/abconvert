@@ -1,1 +1,2 @@
 import "backend/version.proto";
+import "backend/testing.proto";

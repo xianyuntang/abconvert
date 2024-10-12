@@ -2,37 +2,75 @@ import { status } from '@grpc/grpc-js';
 import { MikroORM } from '@mikro-orm/core';
 import { CreateRequestContext, EntityManager } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
-import { CreateVersionRequest } from 'shared';
 
 import { GrpcException } from '../filters';
-import { VersionRepository } from '../orm';
+import {
+  ProductRepository,
+  TestingRepository,
+  VersionRepository,
+} from '../orm';
 
 @Injectable()
 export class VersionsService {
   constructor(
     private readonly orm: MikroORM,
     private readonly em: EntityManager,
-    private readonly versionRepository: VersionRepository
+    private readonly productRepository: ProductRepository,
+    private readonly versionRepository: VersionRepository,
+    private readonly testingRepository: TestingRepository
   ) {}
 
   @CreateRequestContext()
-  async createVersion(dto: CreateVersionRequest) {
-    const version = this.versionRepository.create({
-      product: dto.product,
-      details: [
-        ...dto.details.map((detail: CreateVersionRequest['details'][0]) => ({
-          key: detail.key,
-          value: detail.value,
-        })),
-      ],
-    });
-    await this.em.persistAndFlush(version);
+  async listVersions(product: string) {
+    return this.versionRepository.find(
+      { product },
+      {
+        populate: ['details'],
+      }
+    );
   }
 
   @CreateRequestContext()
-  async getVersion(product: string) {
+  async getPrimaryVersion(product: string) {
     return this.versionRepository.findOneOrFail(
-      { product },
+      { product, primary: true },
+      {
+        populate: ['details'],
+        failHandler: () => new GrpcException(status.NOT_FOUND),
+      }
+    );
+  }
+
+  @CreateRequestContext()
+  async getVersion(product: string, version: string) {
+    return this.versionRepository.findOneOrFail(
+      { product, id: version },
+      {
+        populate: ['details'],
+        failHandler: () => new GrpcException(status.NOT_FOUND),
+      }
+    );
+  }
+
+  @CreateRequestContext()
+  async getRandomVersion(productId: string) {
+    const testing = await this.testingRepository.findOne(
+      {
+        product: productId,
+        isRunning: true,
+      },
+      { populate: ['versionA.details', 'versionB.details'] }
+    );
+
+    if (testing) {
+      return Math.random() > 0.5 ? testing.versionA : testing.versionB;
+    }
+
+    return this.versionRepository.findOneOrFail(
+      {
+        product: productId,
+        primary: true,
+      },
       {
         populate: ['details'],
         failHandler: () => new GrpcException(status.NOT_FOUND),

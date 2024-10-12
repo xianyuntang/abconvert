@@ -23,4 +23,16 @@ export class AppEnvSchema {
 
   @IsString()
   [EnvField.DB_DATABASE]!: string;
+
+  @IsUrl({ require_protocol: true, require_tld: false })
+  [EnvField.CLICKHOUSE_URL]!: string;
+
+  @IsString()
+  [EnvField.CLICKHOUSE_USERNAME]!: string;
+
+  @IsString()
+  [EnvField.CLICKHOUSE_PASSWORD]!: string;
+
+  @IsString()
+  [EnvField.CLICKHOUSE_DATABASE]!: string;
 }

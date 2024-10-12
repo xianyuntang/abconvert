@@ -1,3 +1,1 @@
-export { Version, VersionDetail } from '../../orm';
-
-// export const entities: any[] = [Version, VersionDetail];
+export { Product, Testing, Version, VersionDetail } from '../../orm';

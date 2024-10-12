@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package backend;
+
+message StartTestingRequest {
+  string productId = 1;
+  repeated Detail details = 2;
+
+  message Detail {
+    string key = 1;
+    string value = 2;
+  }
+}
+
+message StartTestingResponse {
+  string message = 1;
+}
+
+message CheckTestingStatusRequest {
+  string productId = 1;
+}
+
+message CheckTestingStatusResponse {
+  string isRunning = 1;
+}
+
+message StopTestingRequest {
+  string productId = 1;
+}
+
+message StopTestingResponse {
+  string message = 1;
+}
+
+service TestingService {
+  rpc StartTesting (StartTestingRequest) returns (StartTestingResponse);
+  rpc CheckTestingStatus (CheckTestingStatusRequest) returns (CheckTestingStatusResponse);
+  rpc StopTesting (StopTestingRequest) returns (StopTestingResponse);
+}
