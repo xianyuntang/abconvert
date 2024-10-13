@@ -17,5 +17,4 @@ const config = {
   password: process.env.CLICKHOUSE_PASSWORD,
 };
 
-console.log(config);
 export default config;

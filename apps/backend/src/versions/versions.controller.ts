@@ -49,7 +49,6 @@ export class VersionsController {
     productId,
     versionId,
   }: GetSpecifiedVersionRequest): Promise<GetVersionResponse> {
-    console.log(productId, versionId);
     const response = await this.versionsService.getVersion(
       productId,
       versionId

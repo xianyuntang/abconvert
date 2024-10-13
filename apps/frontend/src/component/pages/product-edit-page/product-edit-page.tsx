@@ -94,21 +94,21 @@ const ProductEditorPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center flex-col h-svh p-10">
-      <div className="max-w-3xl mx-auto bg-yellow-50 p-6 rounded-lg shadow-md">
-        <div className="flex items-center text-yellow-500 text-lg">
+    <div className="flex h-svh flex-col items-center justify-center p-10">
+      <div className="mx-auto max-w-3xl rounded-lg bg-yellow-50 p-6 shadow-md">
+        <div className="flex items-center text-lg text-yellow-500">
           <span className="mr-2">★★★★★</span>
           <span className="font-bold">25,000+ Happy Customers</span>
         </div>
 
-        <h1 id="title" className="text-4xl font-bold my-4 text-gray-800">
+        <h1 id="title" className="my-4 text-4xl font-bold text-gray-800">
           <Controller
             name="title"
             control={control}
             render={({ field }) => <TextField {...field} />}
           />
         </h1>
-        <div id="price" className="text-2xl text-gray-800 mb-4">
+        <div id="price" className="mb-4 text-2xl text-gray-800">
           <Controller
             name="price1"
             control={control}
@@ -120,7 +120,7 @@ const ProductEditorPage = () => {
 
         <ul
           id="description"
-          className="list-disc list-inside mb-8 space-y-3 text-black"
+          className="mb-8 list-inside list-disc space-y-3 text-black"
         >
           <Controller
             name="description"
@@ -129,7 +129,7 @@ const ProductEditorPage = () => {
           />
         </ul>
 
-        <div className="grid grid-cols-3 gap-6 mb-8 text-black">
+        <div className="mb-8 grid grid-cols-3 gap-6 text-black">
           <div id="feature-1" className="text-center">
             {/* <img src="/moisturization-icon.png" alt="Powerful Moisturization" className="w-12 mx-auto mb-2" /> */}
             <div className="flex flex-col items-center">
@@ -165,18 +165,18 @@ const ProductEditorPage = () => {
           </div>
         </div>
 
-        <div className="bg-yellow-100 p-6 rounded-lg">
-          <div className="flex justify-center mb-6">
-            <button className="px-6 py-2 rounded-full bg-white font-bold text-gray-800 mr-4">
+        <div className="rounded-lg bg-yellow-100 p-6">
+          <div className="mb-6 flex justify-center">
+            <button className="mr-4 rounded-full bg-white px-6 py-2 font-bold text-gray-800">
               One Time Purchase
             </button>
-            <button className="px-6 py-2 rounded-full bg-gray-200 font-bold text-gray-600">
+            <button className="rounded-full bg-gray-200 px-6 py-2 font-bold text-gray-600">
               Subscribe & Save 20%
             </button>
           </div>
           <div className="grid grid-cols-2 gap-6">
-            <div className="flex flex-col items-center text-center bg-white p-4 rounded-lg shadow-sm">
-              <p className="font-bold text-lg text-black">8 oz</p>
+            <div className="flex flex-col items-center rounded-lg bg-white p-4 text-center shadow-sm">
+              <p className="text-lg font-bold text-black">8 oz</p>
               <Controller
                 name="price2"
                 control={control}
@@ -188,12 +188,12 @@ const ProductEditorPage = () => {
               <p className="text-sm text-gray-500">
                 ${(parseFloat(price2) / 8).toFixed(2)} per oz
               </p>
-              <span className="inline-block mt-2 bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-lg">
+              <span className="mt-2 inline-block rounded-lg bg-yellow-500 px-3 py-1 text-xs font-bold text-white">
                 Save 30%
               </span>
             </div>
-            <div className="flex flex-col items-center text-center bg-white p-4 rounded-lg shadow-sm">
-              <p className="font-bold text-lg text-black">4 oz</p>
+            <div className="flex flex-col items-center rounded-lg bg-white p-4 text-center shadow-sm">
+              <p className="text-lg font-bold text-black">4 oz</p>
               <Controller
                 name="price3"
                 control={control}
@@ -212,14 +212,14 @@ const ProductEditorPage = () => {
             <div className="text-red-400">A/B testing is running</div>
           )}
 
-          <div className="flex gap-4 justify-end">
+          <div className="flex justify-end gap-4">
             {runningTesting?.data?.id ? (
               <Button onClick={handleStopTestingClick}>STOP</Button>
             ) : (
               <Button onClick={handleSubmit(onCreateVersion)}>START</Button>
             )}
           </div>
-          <p className="text-gray-500 text-sm">Powered by ABConvert</p>
+          <p className="text-sm text-gray-500">Powered by ABConvert</p>
         </footer>
       </div>
     </div>

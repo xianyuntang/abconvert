@@ -37,4 +37,10 @@ module.exports = [
       'simple-import-sort/exports': 'error',
     },
   },
+  {
+    files: ['**/*.js', '**/*.ts', '**/*.tsx'],
+    rules: {
+      'no-console': ['error', { allow: ['warn', 'error'] }],
+    },
+  },
 ];

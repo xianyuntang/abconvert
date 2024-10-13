@@ -32,7 +32,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       <div className={twMerge('w-full flex text-black', className)}>
         {prefix && <span>{prefix}</span>}
         <input
-          className="w-full h-full border-2"
+          className="size-full border-2"
           ref={ref}
           placeholder={placeholder}
           value={textInputValue}

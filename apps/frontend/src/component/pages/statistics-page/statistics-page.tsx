@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useMemo, useState } from 'react';
+import { EventType } from 'shared';
 
 import { testingService } from '../../../services';
 import Select from '../../select';
@@ -47,22 +48,24 @@ const StatisticsPage = () => {
     setSelectedTesting(evt.target.value);
   };
 
-  const visits = useMemo(() => {
-    const primary = new Set();
-    const testing = new Set();
+  const primaryStatistics = useMemo(() => {
+    const visits = new Set();
+    let timeOnPage = 0;
+
     testingResult?.data?.primary.map((event) => {
-      primary.add(event.clientId);
+      if (event.eventType === EventType.Enter) {
+        visits.add(event.clientId);
+      }
+      if (event.eventType === EventType.Stay) {
+        timeOnPage += 1;
+      }
     });
-    testingResult?.data?.testing.map((event) => {
-      testing.add(event.clientId);
-    });
-    console.log(primary, testing);
-    return { primary: primary.size, testing: testing.size };
+    return { visits: visits.size, averageTimeOnPage: timeOnPage / visits.size };
   }, [testingResult]);
 
   return (
-    <div className="flex justify-center h-svh p-10">
-      <div className="w-1/2 mx-auto bg-yellow-50 p-6 rounded-lg shadow-md">
+    <div className="flex h-svh justify-center p-10">
+      <div className="mx-auto w-1/2 rounded-lg bg-yellow-50 p-6 shadow-md">
         <div className="text-black">
           <Select
             label="Testing"
@@ -70,7 +73,7 @@ const StatisticsPage = () => {
             onSelect={handleTestingSelect}
           ></Select>
         </div>
-        <table className="text-black w-full text-center">
+        <table className="w-full text-center text-black">
           <thead>
             <tr className="border-b">
               <th className="border">12</th>
@@ -80,14 +83,19 @@ const StatisticsPage = () => {
           </thead>
           <tbody>
             <tr className="border-b">
-              <td className="border">Visits</td>
-              <td className="border">{visits.primary}</td>
-              <td className="border">{visits.testing}</td>
+              <td className="border">Page Visits</td>
+              <td className="border">{primaryStatistics.visits}</td>
+              {/*<td className="border">{primaryStatistics.primaryVisits}</td>*/}
+            </tr>
+            <tr className="border-b">
+              <td className="border">Time On Page</td>
+              <td className="border">{primaryStatistics.averageTimeOnPage}</td>
+              {/*<td className="border">{primaryStatistics.timeOnPage}</td>*/}
             </tr>
           </tbody>
         </table>
         <footer className="mt-12 text-center">
-          <p className="text-gray-500 text-sm">Powered by ABConvert</p>
+          <p className="text-sm text-gray-500">Powered by ABConvert</p>
         </footer>
       </div>
     </div>

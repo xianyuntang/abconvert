@@ -29,7 +29,7 @@ const TextField = forwardRef<HTMLTextAreaElement, TextFieldProps>(
     return (
       <div className={twMerge('w-full text-black', className)}>
         <textarea
-          className="w-full h-full border-2 resize-none"
+          className="size-full resize-none border-2"
           ref={ref}
           placeholder={placeholder}
           value={textInputValue}
