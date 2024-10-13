@@ -1,9 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import { useMemo, useState } from 'react';
 
 import {
+  useRecordClickButton,
   useRecordEnterPage,
-  useRecordWait,
+  useRecordMousePosition,
+  useRecordStay,
   useVersionId,
 } from '../../../hooks';
 import { testingService, versionService } from '../../../services';
@@ -14,6 +17,10 @@ import {
 } from '../../feature-icon';
 
 const ProductPage = () => {
+  const [containerRef, setContainerRef] = useState<HTMLDivElement | null>(null);
+  const [button1Ref, setButton1Ref] = useState<HTMLButtonElement | null>(null);
+  const [button2Ref, setButton2Ref] = useState<HTMLButtonElement | null>(null);
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -58,11 +65,18 @@ const ProductPage = () => {
     return data?.data?.details.find((item) => item.key === key)?.value || '';
   };
 
-  useRecordWait(runningTesting?.data?.id, versionId);
-  useRecordEnterPage(runningTesting?.data.id, versionId);
+  const testingId = useMemo(() => {
+    return runningTesting?.data.id;
+  }, [runningTesting]);
+
+  useRecordStay(testingId, versionId);
+  useRecordEnterPage(testingId, versionId);
+  useRecordMousePosition(containerRef, testingId, versionId);
+  useRecordClickButton(button1Ref, testingId, versionId);
+  useRecordClickButton(button2Ref, testingId, versionId);
 
   return (
-    <div className="flex h-svh justify-center p-10 ">
+    <div className="flex h-svh justify-center p-10" ref={setContainerRef}>
       <div className="mx-auto max-w-3xl rounded-lg bg-yellow-50 p-6 shadow-md">
         <div className="flex items-center text-lg text-yellow-500">
           <span className="mr-2">★★★★★</span>
@@ -112,10 +126,18 @@ const ProductPage = () => {
         </div>
         <div className="rounded-lg bg-yellow-100 p-6">
           <div className="mb-6 flex justify-center">
-            <button className="mr-4 rounded-full bg-white px-6 py-2 font-bold text-gray-800">
+            <button
+              id="one-time-purchase-button"
+              className="mr-4 rounded-full bg-white px-6 py-2 font-bold text-gray-800"
+              ref={setButton1Ref}
+            >
               One Time Purchase
             </button>
-            <button className="rounded-full bg-gray-200 px-6 py-2 font-bold text-gray-600">
+            <button
+              id="subscribe-button"
+              className="rounded-full bg-gray-200 px-6 py-2 font-bold text-gray-600"
+              ref={setButton2Ref}
+            >
               Subscribe & Save 20%
             </button>
           </div>

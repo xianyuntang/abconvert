@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useMemo, useState } from 'react';
-import { EventType } from 'shared';
+import { EventType, GetTestingResultResponse_Event } from 'shared';
 
 import { testingService } from '../../../services';
 import Select from '../../select';
@@ -48,19 +48,47 @@ const StatisticsPage = () => {
     setSelectedTesting(evt.target.value);
   };
 
-  const primaryStatistics = useMemo(() => {
+  const compute = (events: GetTestingResultResponse_Event[]) => {
     const visits = new Set();
     let timeOnPage = 0;
+    const clickMap = new Map();
 
-    testingResult?.data?.primary.map((event) => {
+    events.map((event) => {
       if (event.eventType === EventType.Enter) {
         visits.add(event.clientId);
       }
       if (event.eventType === EventType.Stay) {
         timeOnPage += 1;
       }
+      if (event.eventType === EventType.Click) {
+        const payload = JSON.parse(event.payload);
+        const eleId = payload['id'];
+        if (clickMap.has(eleId)) {
+          clickMap.set(eleId, clickMap.get(eleId) + 1);
+        } else {
+          clickMap.set(eleId, 1);
+        }
+      }
     });
-    return { visits: visits.size, averageTimeOnPage: timeOnPage / visits.size };
+    const clickElements = Array.from(clickMap.keys());
+    return {
+      visits: visits.size,
+      averageTimeOnPage: timeOnPage / visits.size,
+      clickMap,
+      clickElements,
+    };
+  };
+
+  const primary = useMemo(() => {
+    if (testingResult?.data.primary) {
+      return compute(testingResult?.data?.primary);
+    }
+  }, [testingResult]);
+
+  const testing = useMemo(() => {
+    if (testingResult?.data?.testing) {
+      return compute(testingResult?.data?.testing);
+    }
   }, [testingResult]);
 
   return (
@@ -73,27 +101,37 @@ const StatisticsPage = () => {
             onSelect={handleTestingSelect}
           ></Select>
         </div>
-        <table className="w-full text-center text-black">
-          <thead>
-            <tr className="border-b">
-              <th className="border">12</th>
-              <th className="border">primary</th>
-              <th className="border">testing</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b">
-              <td className="border">Page Visits</td>
-              <td className="border">{primaryStatistics.visits}</td>
-              {/*<td className="border">{primaryStatistics.primaryVisits}</td>*/}
-            </tr>
-            <tr className="border-b">
-              <td className="border">Time On Page</td>
-              <td className="border">{primaryStatistics.averageTimeOnPage}</td>
-              {/*<td className="border">{primaryStatistics.timeOnPage}</td>*/}
-            </tr>
-          </tbody>
-        </table>
+        {primary && testing && (
+          <table className="w-full text-center text-black">
+            <thead>
+              <tr className="border-b">
+                <th className="border text-left">Items</th>
+                <th className="border">primary</th>
+                <th className="border">testing</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b">
+                <td className="border text-left">Page Visits</td>
+                <td className="border">{primary.visits}</td>
+                <td className="border">{testing.visits}</td>
+              </tr>
+              <tr className="border-b">
+                <td className="border text-left">Time On Page</td>
+                <td className="border">{primary.averageTimeOnPage}</td>
+                <td className="border">{testing.averageTimeOnPage}</td>
+              </tr>
+              {primary.clickElements.map((ele) => (
+                <tr className="border-b" key={ele}>
+                  <td className="border text-left">DOM {ele} clicked times</td>
+                  <td className="border">{primary.clickMap.get(ele) || 0}</td>
+                  <td className="border">{testing.clickMap.get(ele) || 0}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
         <footer className="mt-12 text-center">
           <p className="text-sm text-gray-500">Powered by ABConvert</p>
         </footer>

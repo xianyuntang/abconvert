@@ -103,12 +103,22 @@ export class TestingsService {
     );
 
     const versionA = await this.clickhouseClient.query({
-      query: `select client_id as clientId, testing_id as testingId, version_id as versionId, event_type as eventType, payload, event_date as eventDate
+      query: `select client_id                                                as clientId,
+                     testing_id                                               as testingId,
+                     version_id                                               as versionId,
+                     event_type                                               as eventType,
+                     payload,
+                     event_date                                               as eventDate
               from events
               where version_id = '${testing.versionA.id}'`,
     });
     const versionB = await this.clickhouseClient.query({
-      query: `select client_id as clientId, testing_id as testingId, version_id as versionId, event_type as eventType, payload, event_date as eventDate
+      query: `select client_id                                                as clientId,
+                     testing_id                                               as testingId,
+                     version_id                                               as versionId,
+                     event_type                                               as eventType,
+                     payload,
+                     event_date                                               as eventDate
               from events
               where version_id = '${testing.versionB.id}'`,
     });

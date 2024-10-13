@@ -12,7 +12,7 @@ export class Migration20241012022001_AddEvent extends Migration {
           testing_id String,
           version_id String,
           event_type String,
-          payload Object('json'),
+          payload String,
           event_date String,
           ) ENGINE = MergeTree()
           ORDER BY (event_date)

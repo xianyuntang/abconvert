@@ -1,6 +1,4 @@
 syntax = "proto3";
-import "google/protobuf/struct.proto";
-import "google/protobuf/wrappers.proto";
 
 package backend;
 
@@ -48,7 +46,7 @@ message GetTestingResultResponse {
     string testing_id = 2;
     string version_id = 3;
     string event_type = 4;
-    google.protobuf.Struct payload = 5;
+    string payload = 5;
     string event_date = 6;
   }
 }

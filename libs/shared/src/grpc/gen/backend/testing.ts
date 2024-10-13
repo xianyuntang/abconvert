@@ -11,7 +11,6 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
-import { Struct } from "../google/protobuf/struct";
 /**
  * @generated from protobuf message backend.StartTestingRequest
  */
@@ -130,9 +129,9 @@ export interface GetTestingResultResponse_Event {
      */
     eventType: string;
     /**
-     * @generated from protobuf field: google.protobuf.Struct payload = 5;
+     * @generated from protobuf field: string payload = 5;
      */
-    payload?: Struct;
+    payload: string;
     /**
      * @generated from protobuf field: string event_date = 6;
      */
@@ -639,7 +638,7 @@ class GetTestingResultResponse_Event$Type extends MessageType<GetTestingResultRe
             { no: 2, name: "testing_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "version_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "event_type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "payload", kind: "message", T: () => Struct },
+            { no: 5, name: "payload", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 6, name: "event_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
@@ -649,6 +648,7 @@ class GetTestingResultResponse_Event$Type extends MessageType<GetTestingResultRe
         message.testingId = "";
         message.versionId = "";
         message.eventType = "";
+        message.payload = "";
         message.eventDate = "";
         if (value !== undefined)
             reflectionMergePartial<GetTestingResultResponse_Event>(this, message, value);
@@ -671,8 +671,8 @@ class GetTestingResultResponse_Event$Type extends MessageType<GetTestingResultRe
                 case /* string event_type */ 4:
                     message.eventType = reader.string();
                     break;
-                case /* google.protobuf.Struct payload */ 5:
-                    message.payload = Struct.internalBinaryRead(reader, reader.uint32(), options, message.payload);
+                case /* string payload */ 5:
+                    message.payload = reader.string();
                     break;
                 case /* string event_date */ 6:
                     message.eventDate = reader.string();
@@ -701,9 +701,9 @@ class GetTestingResultResponse_Event$Type extends MessageType<GetTestingResultRe
         /* string event_type = 4; */
         if (message.eventType !== "")
             writer.tag(4, WireType.LengthDelimited).string(message.eventType);
-        /* google.protobuf.Struct payload = 5; */
-        if (message.payload)
-            Struct.internalBinaryWrite(message.payload, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
+        /* string payload = 5; */
+        if (message.payload !== "")
+            writer.tag(5, WireType.LengthDelimited).string(message.payload);
         /* string event_date = 6; */
         if (message.eventDate !== "")
             writer.tag(6, WireType.LengthDelimited).string(message.eventDate);
