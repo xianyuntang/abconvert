@@ -1,6 +1,10 @@
 import {
-  CheckTestingStatusRequest,
-  CheckTestingStatusResponse,
+  GetRunningTestingRequest,
+  GetRunningTestingResponse,
+  GetTestingRequest,
+  GetTestingResponse,
+  GetTestingResultRequest,
+  GetTestingResultResponse,
   StartTestingRequest,
   StartTestingResponse,
   StopTestingRequest,
@@ -16,16 +20,29 @@ export const startTesting = ({ productId, details }: StartTestingRequest) => {
   );
 };
 
-export const checkTestingStatus = ({
-  productId,
-}: CheckTestingStatusRequest) => {
-  return fetcher.get<CheckTestingStatusResponse>(
-    `/api/backend/products/${productId}/testings/status`
+export const getRunningTesting = ({ productId }: GetRunningTestingRequest) => {
+  return fetcher.get<GetRunningTestingResponse>(
+    `/api/backend/products/${productId}/testings/running`
   );
 };
 
 export const stopTesting = ({ productId }: StopTestingRequest) => {
   return fetcher.post<StopTestingResponse>(
     `/api/backend/products/${productId}/testings/stop`
+  );
+};
+
+export const getTestingResultRequest = ({
+  productId,
+  testingId,
+}: GetTestingResultRequest) => {
+  return fetcher.get<GetTestingResultResponse>(
+    `/api/backend/products/${productId}/testings/${testingId}/result`
+  );
+};
+
+export const getTestings = ({ productId }: GetTestingRequest) => {
+  return fetcher.get<GetTestingResponse>(
+    `/api/backend/products/${productId}/testings`
   );
 };

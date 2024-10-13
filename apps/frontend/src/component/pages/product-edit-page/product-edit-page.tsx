@@ -38,10 +38,10 @@ const ProductEditorPage = () => {
     enabled: !!id,
   });
 
-  const { data: testingStatus, refetch } = useQuery({
+  const { data: runningTesting, refetch } = useQuery({
     queryKey: ['testing-status', id],
     queryFn: ({ queryKey: [, id] }) => {
-      return testingService.checkTestingStatus({ productId: id as string });
+      return testingService.getRunningTesting({ productId: id as string });
     },
     enabled: !!id,
   });
@@ -208,12 +208,12 @@ const ProductEditorPage = () => {
           </div>
         </div>
         <footer className="mt-12 text-center">
-          {testingStatus?.data?.isRunning && (
+          {runningTesting?.data?.id && (
             <div className="text-red-400">A/B testing is running</div>
           )}
 
           <div className="flex gap-4 justify-end">
-            {testingStatus?.data?.isRunning ? (
+            {runningTesting?.data?.id ? (
               <Button onClick={handleStopTestingClick}>STOP</Button>
             ) : (
               <Button onClick={handleSubmit(onCreateVersion)}>START</Button>

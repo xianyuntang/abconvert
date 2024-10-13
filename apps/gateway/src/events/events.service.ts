@@ -17,6 +17,8 @@ export class EventsService implements OnModuleInit {
 
   addEvent(dto: AddEventRequestDto) {
     this.clientKafka.emit<string, EventPayload>('store-customer-event', {
+      clientId: dto.clientId,
+      testingId: dto.testingId,
       versionId: dto.versionId,
       eventType: dto.eventType,
       payload: dto.payload,

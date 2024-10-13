@@ -1,4 +1,6 @@
 syntax = "proto3";
+import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
 
 package backend;
 
@@ -16,12 +18,12 @@ message StartTestingResponse {
   string message = 1;
 }
 
-message CheckTestingStatusRequest {
+message GetRunningTestingRequest {
   string productId = 1;
 }
 
-message CheckTestingStatusResponse {
-  string isRunning = 1;
+message GetRunningTestingResponse {
+  optional string id = 1;
 }
 
 message StopTestingRequest {
@@ -32,8 +34,45 @@ message StopTestingResponse {
   string message = 1;
 }
 
+message GetTestingResultRequest{
+  string productId = 1;
+  string testingId = 2;
+}
+
+message GetTestingResultResponse {
+  repeated  Event primary = 1;
+  repeated  Event testing = 2;
+
+  message Event {
+    string client_id = 1;
+    string testing_id = 2;
+    string version_id = 3;
+    string event_type = 4;
+    google.protobuf.Struct payload = 5;
+    string event_date = 6;
+  }
+}
+
+message GetTestingRequest {
+  string productId = 1;
+}
+
+message GetTestingResponse {
+  repeated Testing data = 1;
+
+  message Testing {
+    string id = 1;
+    string primaryVersionId = 2;
+    string testingVersionId = 3;
+    string createdAt = 4;
+  }
+
+}
+
 service TestingService {
   rpc StartTesting (StartTestingRequest) returns (StartTestingResponse);
-  rpc CheckTestingStatus (CheckTestingStatusRequest) returns (CheckTestingStatusResponse);
+  rpc GetRunningTesting (GetRunningTestingRequest) returns (GetRunningTestingResponse);
   rpc StopTesting (StopTestingRequest) returns (StopTestingResponse);
+  rpc GetTestingResult (GetTestingResultRequest) returns (GetTestingResultResponse);
+  rpc GetTestings(GetTestingRequest) returns (GetTestingResponse);
 }

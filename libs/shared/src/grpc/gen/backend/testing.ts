@@ -11,6 +11,7 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
+import { Struct } from "../google/protobuf/struct";
 /**
  * @generated from protobuf message backend.StartTestingRequest
  */
@@ -47,22 +48,22 @@ export interface StartTestingResponse {
     message: string;
 }
 /**
- * @generated from protobuf message backend.CheckTestingStatusRequest
+ * @generated from protobuf message backend.GetRunningTestingRequest
  */
-export interface CheckTestingStatusRequest {
+export interface GetRunningTestingRequest {
     /**
      * @generated from protobuf field: string productId = 1;
      */
     productId: string;
 }
 /**
- * @generated from protobuf message backend.CheckTestingStatusResponse
+ * @generated from protobuf message backend.GetRunningTestingResponse
  */
-export interface CheckTestingStatusResponse {
+export interface GetRunningTestingResponse {
     /**
-     * @generated from protobuf field: string isRunning = 1;
+     * @generated from protobuf field: optional string id = 1;
      */
-    isRunning: string;
+    id?: string;
 }
 /**
  * @generated from protobuf message backend.StopTestingRequest
@@ -81,6 +82,100 @@ export interface StopTestingResponse {
      * @generated from protobuf field: string message = 1;
      */
     message: string;
+}
+/**
+ * @generated from protobuf message backend.GetTestingResultRequest
+ */
+export interface GetTestingResultRequest {
+    /**
+     * @generated from protobuf field: string productId = 1;
+     */
+    productId: string;
+    /**
+     * @generated from protobuf field: string testingId = 2;
+     */
+    testingId: string;
+}
+/**
+ * @generated from protobuf message backend.GetTestingResultResponse
+ */
+export interface GetTestingResultResponse {
+    /**
+     * @generated from protobuf field: repeated backend.GetTestingResultResponse.Event primary = 1;
+     */
+    primary: GetTestingResultResponse_Event[];
+    /**
+     * @generated from protobuf field: repeated backend.GetTestingResultResponse.Event testing = 2;
+     */
+    testing: GetTestingResultResponse_Event[];
+}
+/**
+ * @generated from protobuf message backend.GetTestingResultResponse.Event
+ */
+export interface GetTestingResultResponse_Event {
+    /**
+     * @generated from protobuf field: string client_id = 1;
+     */
+    clientId: string;
+    /**
+     * @generated from protobuf field: string testing_id = 2;
+     */
+    testingId: string;
+    /**
+     * @generated from protobuf field: string version_id = 3;
+     */
+    versionId: string;
+    /**
+     * @generated from protobuf field: string event_type = 4;
+     */
+    eventType: string;
+    /**
+     * @generated from protobuf field: google.protobuf.Struct payload = 5;
+     */
+    payload?: Struct;
+    /**
+     * @generated from protobuf field: string event_date = 6;
+     */
+    eventDate: string;
+}
+/**
+ * @generated from protobuf message backend.GetTestingRequest
+ */
+export interface GetTestingRequest {
+    /**
+     * @generated from protobuf field: string productId = 1;
+     */
+    productId: string;
+}
+/**
+ * @generated from protobuf message backend.GetTestingResponse
+ */
+export interface GetTestingResponse {
+    /**
+     * @generated from protobuf field: repeated backend.GetTestingResponse.Testing data = 1;
+     */
+    data: GetTestingResponse_Testing[];
+}
+/**
+ * @generated from protobuf message backend.GetTestingResponse.Testing
+ */
+export interface GetTestingResponse_Testing {
+    /**
+     * @generated from protobuf field: string id = 1;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: string primaryVersionId = 2;
+     */
+    primaryVersionId: string;
+    /**
+     * @generated from protobuf field: string testingVersionId = 3;
+     */
+    testingVersionId: string;
+    /**
+     * @generated from protobuf field: string createdAt = 4;
+     */
+    createdAt: string;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class StartTestingRequest$Type extends MessageType<StartTestingRequest> {
@@ -240,20 +335,20 @@ class StartTestingResponse$Type extends MessageType<StartTestingResponse> {
  */
 export const StartTestingResponse = new StartTestingResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CheckTestingStatusRequest$Type extends MessageType<CheckTestingStatusRequest> {
+class GetRunningTestingRequest$Type extends MessageType<GetRunningTestingRequest> {
     constructor() {
-        super("backend.CheckTestingStatusRequest", [
+        super("backend.GetRunningTestingRequest", [
             { no: 1, name: "productId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<CheckTestingStatusRequest>): CheckTestingStatusRequest {
+    create(value?: PartialMessage<GetRunningTestingRequest>): GetRunningTestingRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.productId = "";
         if (value !== undefined)
-            reflectionMergePartial<CheckTestingStatusRequest>(this, message, value);
+            reflectionMergePartial<GetRunningTestingRequest>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CheckTestingStatusRequest): CheckTestingStatusRequest {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetRunningTestingRequest): GetRunningTestingRequest {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
@@ -272,7 +367,7 @@ class CheckTestingStatusRequest$Type extends MessageType<CheckTestingStatusReque
         }
         return message;
     }
-    internalBinaryWrite(message: CheckTestingStatusRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+    internalBinaryWrite(message: GetRunningTestingRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
         /* string productId = 1; */
         if (message.productId !== "")
             writer.tag(1, WireType.LengthDelimited).string(message.productId);
@@ -283,30 +378,29 @@ class CheckTestingStatusRequest$Type extends MessageType<CheckTestingStatusReque
     }
 }
 /**
- * @generated MessageType for protobuf message backend.CheckTestingStatusRequest
+ * @generated MessageType for protobuf message backend.GetRunningTestingRequest
  */
-export const CheckTestingStatusRequest = new CheckTestingStatusRequest$Type();
+export const GetRunningTestingRequest = new GetRunningTestingRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CheckTestingStatusResponse$Type extends MessageType<CheckTestingStatusResponse> {
+class GetRunningTestingResponse$Type extends MessageType<GetRunningTestingResponse> {
     constructor() {
-        super("backend.CheckTestingStatusResponse", [
-            { no: 1, name: "isRunning", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        super("backend.GetRunningTestingResponse", [
+            { no: 1, name: "id", kind: "scalar", opt: true, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<CheckTestingStatusResponse>): CheckTestingStatusResponse {
+    create(value?: PartialMessage<GetRunningTestingResponse>): GetRunningTestingResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.isRunning = "";
         if (value !== undefined)
-            reflectionMergePartial<CheckTestingStatusResponse>(this, message, value);
+            reflectionMergePartial<GetRunningTestingResponse>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CheckTestingStatusResponse): CheckTestingStatusResponse {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetRunningTestingResponse): GetRunningTestingResponse {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string isRunning */ 1:
-                    message.isRunning = reader.string();
+                case /* optional string id */ 1:
+                    message.id = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -319,10 +413,10 @@ class CheckTestingStatusResponse$Type extends MessageType<CheckTestingStatusResp
         }
         return message;
     }
-    internalBinaryWrite(message: CheckTestingStatusResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string isRunning = 1; */
-        if (message.isRunning !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.isRunning);
+    internalBinaryWrite(message: GetRunningTestingResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* optional string id = 1; */
+        if (message.id !== undefined)
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -330,9 +424,9 @@ class CheckTestingStatusResponse$Type extends MessageType<CheckTestingStatusResp
     }
 }
 /**
- * @generated MessageType for protobuf message backend.CheckTestingStatusResponse
+ * @generated MessageType for protobuf message backend.GetRunningTestingResponse
  */
-export const CheckTestingStatusResponse = new CheckTestingStatusResponse$Type();
+export const GetRunningTestingResponse = new GetRunningTestingResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class StopTestingRequest$Type extends MessageType<StopTestingRequest> {
     constructor() {
@@ -427,11 +521,374 @@ class StopTestingResponse$Type extends MessageType<StopTestingResponse> {
  * @generated MessageType for protobuf message backend.StopTestingResponse
  */
 export const StopTestingResponse = new StopTestingResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTestingResultRequest$Type extends MessageType<GetTestingResultRequest> {
+    constructor() {
+        super("backend.GetTestingResultRequest", [
+            { no: 1, name: "productId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "testingId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetTestingResultRequest>): GetTestingResultRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.productId = "";
+        message.testingId = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetTestingResultRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetTestingResultRequest): GetTestingResultRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string productId */ 1:
+                    message.productId = reader.string();
+                    break;
+                case /* string testingId */ 2:
+                    message.testingId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetTestingResultRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string productId = 1; */
+        if (message.productId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.productId);
+        /* string testingId = 2; */
+        if (message.testingId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.testingId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message backend.GetTestingResultRequest
+ */
+export const GetTestingResultRequest = new GetTestingResultRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTestingResultResponse$Type extends MessageType<GetTestingResultResponse> {
+    constructor() {
+        super("backend.GetTestingResultResponse", [
+            { no: 1, name: "primary", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GetTestingResultResponse_Event },
+            { no: 2, name: "testing", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GetTestingResultResponse_Event }
+        ]);
+    }
+    create(value?: PartialMessage<GetTestingResultResponse>): GetTestingResultResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.primary = [];
+        message.testing = [];
+        if (value !== undefined)
+            reflectionMergePartial<GetTestingResultResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetTestingResultResponse): GetTestingResultResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated backend.GetTestingResultResponse.Event primary */ 1:
+                    message.primary.push(GetTestingResultResponse_Event.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                case /* repeated backend.GetTestingResultResponse.Event testing */ 2:
+                    message.testing.push(GetTestingResultResponse_Event.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetTestingResultResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated backend.GetTestingResultResponse.Event primary = 1; */
+        for (let i = 0; i < message.primary.length; i++)
+            GetTestingResultResponse_Event.internalBinaryWrite(message.primary[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* repeated backend.GetTestingResultResponse.Event testing = 2; */
+        for (let i = 0; i < message.testing.length; i++)
+            GetTestingResultResponse_Event.internalBinaryWrite(message.testing[i], writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message backend.GetTestingResultResponse
+ */
+export const GetTestingResultResponse = new GetTestingResultResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTestingResultResponse_Event$Type extends MessageType<GetTestingResultResponse_Event> {
+    constructor() {
+        super("backend.GetTestingResultResponse.Event", [
+            { no: 1, name: "client_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "testing_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "version_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "event_type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 5, name: "payload", kind: "message", T: () => Struct },
+            { no: 6, name: "event_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetTestingResultResponse_Event>): GetTestingResultResponse_Event {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.clientId = "";
+        message.testingId = "";
+        message.versionId = "";
+        message.eventType = "";
+        message.eventDate = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetTestingResultResponse_Event>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetTestingResultResponse_Event): GetTestingResultResponse_Event {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string client_id */ 1:
+                    message.clientId = reader.string();
+                    break;
+                case /* string testing_id */ 2:
+                    message.testingId = reader.string();
+                    break;
+                case /* string version_id */ 3:
+                    message.versionId = reader.string();
+                    break;
+                case /* string event_type */ 4:
+                    message.eventType = reader.string();
+                    break;
+                case /* google.protobuf.Struct payload */ 5:
+                    message.payload = Struct.internalBinaryRead(reader, reader.uint32(), options, message.payload);
+                    break;
+                case /* string event_date */ 6:
+                    message.eventDate = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetTestingResultResponse_Event, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string client_id = 1; */
+        if (message.clientId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.clientId);
+        /* string testing_id = 2; */
+        if (message.testingId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.testingId);
+        /* string version_id = 3; */
+        if (message.versionId !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.versionId);
+        /* string event_type = 4; */
+        if (message.eventType !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.eventType);
+        /* google.protobuf.Struct payload = 5; */
+        if (message.payload)
+            Struct.internalBinaryWrite(message.payload, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
+        /* string event_date = 6; */
+        if (message.eventDate !== "")
+            writer.tag(6, WireType.LengthDelimited).string(message.eventDate);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message backend.GetTestingResultResponse.Event
+ */
+export const GetTestingResultResponse_Event = new GetTestingResultResponse_Event$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTestingRequest$Type extends MessageType<GetTestingRequest> {
+    constructor() {
+        super("backend.GetTestingRequest", [
+            { no: 1, name: "productId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetTestingRequest>): GetTestingRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.productId = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetTestingRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetTestingRequest): GetTestingRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string productId */ 1:
+                    message.productId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetTestingRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string productId = 1; */
+        if (message.productId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.productId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message backend.GetTestingRequest
+ */
+export const GetTestingRequest = new GetTestingRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTestingResponse$Type extends MessageType<GetTestingResponse> {
+    constructor() {
+        super("backend.GetTestingResponse", [
+            { no: 1, name: "data", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GetTestingResponse_Testing }
+        ]);
+    }
+    create(value?: PartialMessage<GetTestingResponse>): GetTestingResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.data = [];
+        if (value !== undefined)
+            reflectionMergePartial<GetTestingResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetTestingResponse): GetTestingResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* repeated backend.GetTestingResponse.Testing data */ 1:
+                    message.data.push(GetTestingResponse_Testing.internalBinaryRead(reader, reader.uint32(), options));
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetTestingResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated backend.GetTestingResponse.Testing data = 1; */
+        for (let i = 0; i < message.data.length; i++)
+            GetTestingResponse_Testing.internalBinaryWrite(message.data[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message backend.GetTestingResponse
+ */
+export const GetTestingResponse = new GetTestingResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetTestingResponse_Testing$Type extends MessageType<GetTestingResponse_Testing> {
+    constructor() {
+        super("backend.GetTestingResponse.Testing", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "primaryVersionId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "testingVersionId", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "createdAt", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetTestingResponse_Testing>): GetTestingResponse_Testing {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        message.primaryVersionId = "";
+        message.testingVersionId = "";
+        message.createdAt = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetTestingResponse_Testing>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetTestingResponse_Testing): GetTestingResponse_Testing {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string id */ 1:
+                    message.id = reader.string();
+                    break;
+                case /* string primaryVersionId */ 2:
+                    message.primaryVersionId = reader.string();
+                    break;
+                case /* string testingVersionId */ 3:
+                    message.testingVersionId = reader.string();
+                    break;
+                case /* string createdAt */ 4:
+                    message.createdAt = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetTestingResponse_Testing, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 1; */
+        if (message.id !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* string primaryVersionId = 2; */
+        if (message.primaryVersionId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.primaryVersionId);
+        /* string testingVersionId = 3; */
+        if (message.testingVersionId !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.testingVersionId);
+        /* string createdAt = 4; */
+        if (message.createdAt !== "")
+            writer.tag(4, WireType.LengthDelimited).string(message.createdAt);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message backend.GetTestingResponse.Testing
+ */
+export const GetTestingResponse_Testing = new GetTestingResponse_Testing$Type();
 /**
  * @generated ServiceType for protobuf service backend.TestingService
  */
 export const TestingService = new ServiceType("backend.TestingService", [
     { name: "StartTesting", options: {}, I: StartTestingRequest, O: StartTestingResponse },
-    { name: "CheckTestingStatus", options: {}, I: CheckTestingStatusRequest, O: CheckTestingStatusResponse },
-    { name: "StopTesting", options: {}, I: StopTestingRequest, O: StopTestingResponse }
+    { name: "GetRunningTesting", options: {}, I: GetRunningTestingRequest, O: GetRunningTestingResponse },
+    { name: "StopTesting", options: {}, I: StopTestingRequest, O: StopTestingResponse },
+    { name: "GetTestingResult", options: {}, I: GetTestingResultRequest, O: GetTestingResultResponse },
+    { name: "GetTestings", options: {}, I: GetTestingRequest, O: GetTestingResponse }
 ]);

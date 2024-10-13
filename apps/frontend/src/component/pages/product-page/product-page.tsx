@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
-import { useRecordWait, useVersion } from '../../../hooks';
+import { useRecordWait, useVersionId } from '../../../hooks';
 import { testingService, versionService } from '../../../services';
 import {
   MoisturizationIcon,
@@ -13,12 +13,14 @@ const ProductPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const { versionId, saveVersionId } = useVersion(id as string);
+  const { versionId, saveVersionId, removeVersionId } = useVersionId(
+    id as string
+  );
 
-  const { data: testingStatus } = useQuery({
+  const { data: runningTesting, isSuccess } = useQuery({
     queryKey: ['testing-status', id],
     queryFn: async ({ queryKey: [, id] }) => {
-      return testingService.checkTestingStatus({ productId: id as string });
+      return testingService.getRunningTesting({ productId: id as string });
     },
     enabled: !!id,
   });
@@ -26,27 +28,33 @@ const ProductPage = () => {
   const { data } = useQuery({
     queryKey: ['random-version', id],
     queryFn: async ({ queryKey: [, id] }) => {
-      if (versionId) {
-        return versionService.gerVersion({
-          productId: id as string,
-          versionId,
-        });
-      }
-      const version = await versionService.getRandomVersion({
-        productId: id as string,
-      });
-      saveVersionId(version.data.id);
+      if (runningTesting?.data?.id) {
+        if (versionId) {
+          return versionService.gerVersion({
+            productId: id as string,
+            versionId,
+          });
+        } else {
+          const version = await versionService.getRandomVersion({
+            productId: id as string,
+          });
+          saveVersionId(version.data.id);
 
-      return version;
+          return version;
+        }
+      } else {
+        removeVersionId(id as string);
+        return versionService.getPrimaryVersion({ productId: id as string });
+      }
     },
-    enabled: !!id && testingStatus?.data?.isRunning !== undefined,
+    enabled: !!id && isSuccess,
   });
 
   const getValue = (key: string) => {
     return data?.data?.details.find((item) => item.key === key)?.value || '';
   };
 
-  useRecordWait(versionId, !!versionId);
+  useRecordWait(runningTesting?.data?.id, versionId);
 
   return (
     <div className="flex justify-center h-svh p-10">

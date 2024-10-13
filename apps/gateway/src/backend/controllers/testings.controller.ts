@@ -48,9 +48,27 @@ export class TestingsController implements OnModuleInit {
     });
   }
 
-  @Get('status')
-  async checkStatus(@Param('productId') productId: string) {
-    return this.testingServiceClient.checkTestingStatus({
+  @Get('running')
+  async getRunningTesting(@Param('productId') productId: string) {
+    return this.testingServiceClient.getRunningTesting({
+      productId,
+    });
+  }
+
+  @Get(':testingId/result')
+  async getTestingResult(
+    @Param('productId') productId: string,
+    @Param('testingId') testingId: string
+  ) {
+    return this.testingServiceClient.getTestingResult({
+      productId,
+      testingId,
+    });
+  }
+
+  @Get()
+  async getTestings(@Param('productId') productId: string) {
+    return this.testingServiceClient.getTestings({
       productId,
     });
   }

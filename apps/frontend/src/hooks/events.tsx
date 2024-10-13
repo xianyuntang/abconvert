@@ -2,25 +2,43 @@ import { useEffect } from 'react';
 import { EventType } from 'shared';
 
 import { addEvent } from '../services/event';
+import { useClientId } from './client';
 
-export const useRecordMousePosition = (versionId: string, enabled: boolean) => {
+export const useRecordMousePosition = (
+  testingId?: string,
+  versionId?: string
+) => {
+  const { clientId } = useClientId();
+
   useEffect(() => {
-    if (enabled) {
+    if (testingId && versionId) {
       const interval = setInterval(async () => {
-        await addEvent({ eventType: EventType.Move, versionId });
+        await addEvent({
+          clientId,
+          testingId,
+          versionId,
+          eventType: EventType.Move,
+        });
       }, 1000);
       return clearInterval(interval);
     }
-  }, [versionId, enabled]);
+  }, [testingId, versionId]);
 };
 
-export const useRecordWait = (versionId: string | null, enabled: boolean) => {
+export const useRecordWait = (testingId?: string, versionId?: string) => {
+  const { clientId } = useClientId();
+
   useEffect(() => {
-    if (versionId && enabled) {
+    if (testingId && versionId) {
       const interval = setInterval(async () => {
-        await addEvent({ eventType: EventType.Stay, versionId });
+        await addEvent({
+          eventType: EventType.Stay,
+          versionId,
+          testingId,
+          clientId,
+        });
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [versionId, enabled]);
+  }, [testingId, versionId]);
 };

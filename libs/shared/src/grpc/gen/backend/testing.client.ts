@@ -4,10 +4,14 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { TestingService } from "./testing";
+import type { GetTestingResponse } from "./testing";
+import type { GetTestingRequest } from "./testing";
+import type { GetTestingResultResponse } from "./testing";
+import type { GetTestingResultRequest } from "./testing";
 import type { StopTestingResponse } from "./testing";
 import type { StopTestingRequest } from "./testing";
-import type { CheckTestingStatusResponse } from "./testing";
-import type { CheckTestingStatusRequest } from "./testing";
+import type { GetRunningTestingResponse } from "./testing";
+import type { GetRunningTestingRequest } from "./testing";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { StartTestingResponse } from "./testing";
 import type { StartTestingRequest } from "./testing";
@@ -22,13 +26,21 @@ export interface ITestingServiceClient {
      */
     startTesting(input: StartTestingRequest, options?: RpcOptions): UnaryCall<StartTestingRequest, StartTestingResponse>;
     /**
-     * @generated from protobuf rpc: CheckTestingStatus(backend.CheckTestingStatusRequest) returns (backend.CheckTestingStatusResponse);
+     * @generated from protobuf rpc: GetRunningTesting(backend.GetRunningTestingRequest) returns (backend.GetRunningTestingResponse);
      */
-    checkTestingStatus(input: CheckTestingStatusRequest, options?: RpcOptions): UnaryCall<CheckTestingStatusRequest, CheckTestingStatusResponse>;
+    getRunningTesting(input: GetRunningTestingRequest, options?: RpcOptions): UnaryCall<GetRunningTestingRequest, GetRunningTestingResponse>;
     /**
      * @generated from protobuf rpc: StopTesting(backend.StopTestingRequest) returns (backend.StopTestingResponse);
      */
     stopTesting(input: StopTestingRequest, options?: RpcOptions): UnaryCall<StopTestingRequest, StopTestingResponse>;
+    /**
+     * @generated from protobuf rpc: GetTestingResult(backend.GetTestingResultRequest) returns (backend.GetTestingResultResponse);
+     */
+    getTestingResult(input: GetTestingResultRequest, options?: RpcOptions): UnaryCall<GetTestingResultRequest, GetTestingResultResponse>;
+    /**
+     * @generated from protobuf rpc: GetTestings(backend.GetTestingRequest) returns (backend.GetTestingResponse);
+     */
+    getTestings(input: GetTestingRequest, options?: RpcOptions): UnaryCall<GetTestingRequest, GetTestingResponse>;
 }
 /**
  * @generated from protobuf service backend.TestingService
@@ -47,11 +59,11 @@ export class TestingServiceClient implements ITestingServiceClient, ServiceInfo 
         return stackIntercept<StartTestingRequest, StartTestingResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: CheckTestingStatus(backend.CheckTestingStatusRequest) returns (backend.CheckTestingStatusResponse);
+     * @generated from protobuf rpc: GetRunningTesting(backend.GetRunningTestingRequest) returns (backend.GetRunningTestingResponse);
      */
-    checkTestingStatus(input: CheckTestingStatusRequest, options?: RpcOptions): UnaryCall<CheckTestingStatusRequest, CheckTestingStatusResponse> {
+    getRunningTesting(input: GetRunningTestingRequest, options?: RpcOptions): UnaryCall<GetRunningTestingRequest, GetRunningTestingResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
-        return stackIntercept<CheckTestingStatusRequest, CheckTestingStatusResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<GetRunningTestingRequest, GetRunningTestingResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: StopTesting(backend.StopTestingRequest) returns (backend.StopTestingResponse);
@@ -59,5 +71,19 @@ export class TestingServiceClient implements ITestingServiceClient, ServiceInfo 
     stopTesting(input: StopTestingRequest, options?: RpcOptions): UnaryCall<StopTestingRequest, StopTestingResponse> {
         const method = this.methods[2], opt = this._transport.mergeOptions(options);
         return stackIntercept<StopTestingRequest, StopTestingResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetTestingResult(backend.GetTestingResultRequest) returns (backend.GetTestingResultResponse);
+     */
+    getTestingResult(input: GetTestingResultRequest, options?: RpcOptions): UnaryCall<GetTestingResultRequest, GetTestingResultResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetTestingResultRequest, GetTestingResultResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetTestings(backend.GetTestingRequest) returns (backend.GetTestingResponse);
+     */
+    getTestings(input: GetTestingRequest, options?: RpcOptions): UnaryCall<GetTestingRequest, GetTestingResponse> {
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetTestingRequest, GetTestingResponse>("unary", this._transport, method, opt, input);
     }
 }

@@ -32,6 +32,18 @@ export class AppConfigService {
         password: this.configService.getOrThrow<string>(EnvField.DB_PASSWORD),
         database: this.configService.getOrThrow<string>(EnvField.DB_DATABASE),
       },
+      clickhouse: {
+        url: this.configService.getOrThrow<string>(EnvField.CLICKHOUSE_URL),
+        username: this.configService.getOrThrow<string>(
+          EnvField.CLICKHOUSE_USERNAME
+        ),
+        password: this.configService.getOrThrow<string>(
+          EnvField.CLICKHOUSE_PASSWORD
+        ),
+        database: this.configService.getOrThrow<string>(
+          EnvField.CLICKHOUSE_DATABASE
+        ),
+      },
     };
   }
 }

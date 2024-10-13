@@ -1,9 +1,15 @@
+import { ClickHouseClient } from '@clickhouse/client';
 import { status } from '@grpc/grpc-js';
 import { MikroORM } from '@mikro-orm/core';
 import { CreateRequestContext, EntityManager } from '@mikro-orm/postgresql';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import dayjs from 'dayjs';
 import {
-  CheckTestingStatusRequest,
+  CLICKHOUSE_CLIENT_TOKEN,
+  GetRunningTestingRequest,
+  GetTestingRequest,
+  GetTestingResultRequest,
+  GetTestingResultResponse,
   StartTestingRequest,
   StopTestingRequest,
 } from 'shared';
@@ -20,6 +26,8 @@ export class TestingsService {
   constructor(
     private readonly orm: MikroORM,
     private readonly em: EntityManager,
+    @Inject(CLICKHOUSE_CLIENT_TOKEN)
+    private readonly clickhouseClient: ClickHouseClient,
     private readonly productRepository: ProductRepository,
     private readonly testingRepository: TestingRepository,
     private readonly versionRepository: VersionRepository
@@ -61,12 +69,12 @@ export class TestingsService {
   }
 
   @CreateRequestContext()
-  async checkTestingStatus({ productId }: CheckTestingStatusRequest) {
+  async getRunningTesting({ productId }: GetRunningTestingRequest) {
     const testing = await this.testingRepository.findOne({
       product: productId,
       isRunning: true,
     });
-    return { isRunning: testing?.isRunning };
+    return { id: testing?.id };
   }
 
   @CreateRequestContext()
@@ -82,5 +90,50 @@ export class TestingsService {
 
       em.assign(testing, { isRunning: false });
     });
+  }
+
+  @CreateRequestContext()
+  async getTestingResult({ productId, testingId }: GetTestingResultRequest) {
+    const testing = await this.testingRepository.findOneOrFail(
+      {
+        id: testingId,
+        product: productId,
+      },
+      { populate: ['versionA', 'versionB'] }
+    );
+
+    const versionA = await this.clickhouseClient.query({
+      query: `select client_id as clientId, testing_id as testingId, version_id as versionId, event_type as eventType, payload, event_date as eventDate
+              from events
+              where version_id = '${testing.versionA.id}'`,
+    });
+    const versionB = await this.clickhouseClient.query({
+      query: `select client_id as clientId, testing_id as testingId, version_id as versionId, event_type as eventType, payload, event_date as eventDate
+              from events
+              where version_id = '${testing.versionB.id}'`,
+    });
+    return {
+      primary: (await versionA.json())
+        .data as GetTestingResultResponse['primary'],
+      testing: (await versionB.json())
+        .data as GetTestingResultResponse['testing'],
+    };
+  }
+
+  @CreateRequestContext()
+  async getTestings({ productId }: GetTestingRequest) {
+    const testings = await this.testingRepository.find(
+      {
+        product: productId,
+      },
+      { populate: ['versionA', 'versionB'] }
+    );
+
+    return testings.map((testing) => ({
+      id: testing.id,
+      primaryVersionId: testing.versionA.id,
+      testingVersionId: testing.versionB.id,
+      createdAt: dayjs(testing.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+    }));
   }
 }
