@@ -63,17 +63,13 @@ const StatisticsPage = () => {
       if (event.eventType === EventType.Click) {
         const payload = JSON.parse(event.payload);
         const eleId = payload['id'];
-        if (clickMap.has(eleId)) {
-          clickMap.set(eleId, clickMap.get(eleId) + 1);
-        } else {
-          clickMap.set(eleId, 1);
-        }
+        clickMap.set(eleId, (clickMap.get(eleId) || 0) + 1);
       }
     });
     const clickElements = Array.from(clickMap.keys());
     return {
       visits: visits.size,
-      averageTimeOnPage: timeOnPage / visits.size,
+      averageTimeOnPage: visits.size > 0 ? timeOnPage / visits.size : 0,
       clickMap,
       clickElements,
     };
@@ -83,13 +79,13 @@ const StatisticsPage = () => {
     if (testingResult?.data.primary) {
       return compute(testingResult?.data?.primary);
     }
-  }, [testingResult]);
+  }, [testingResult?.data?.primary]);
 
   const testing = useMemo(() => {
     if (testingResult?.data?.testing) {
       return compute(testingResult?.data?.testing);
     }
-  }, [testingResult]);
+  }, [testingResult?.data?.testing]);
 
   return (
     <div className="flex h-svh justify-center p-10">
@@ -101,7 +97,7 @@ const StatisticsPage = () => {
             onSelect={handleTestingSelect}
           ></Select>
         </div>
-        {primary && testing && (
+        {primary && testing ? (
           <table className="w-full text-center text-black">
             <thead>
               <tr className="border-b">
@@ -130,6 +126,10 @@ const StatisticsPage = () => {
               ))}
             </tbody>
           </table>
+        ) : (
+          <p className="text-center text-black">
+            Loading test results or no data...
+          </p>
         )}
 
         <footer className="mt-12 text-center">

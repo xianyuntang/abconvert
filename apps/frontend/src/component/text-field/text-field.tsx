@@ -15,13 +15,12 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   ({ prefix, placeholder, value, onChange, className, ...props }, ref) => {
-    const [textInputValue, setTextInputValue] = useState<typeof value>(
-      value || ''
-    );
+    const [textInputValue, setTextInputValue] = useState<string>(value || '');
+
     useEffect(() => {
       if (value !== undefined && value !== textInputValue)
         setTextInputValue(value);
-    }, [value, textInputValue]);
+    }, [textInputValue, value]);
 
     const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
       setTextInputValue(evt.target.value);
@@ -30,7 +29,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
 
     return (
       <div className={twMerge('w-full flex text-black', className)}>
-        {prefix && <span>{prefix}</span>}
+        {prefix && <span className="mr-2">{prefix}</span>}
         <input
           className="size-full border-2"
           ref={ref}

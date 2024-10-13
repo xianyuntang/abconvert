@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { EventType } from 'shared';
 
 import { addEvent } from '../services/event';
@@ -12,22 +12,28 @@ export const useRecordMousePosition = (
 ) => {
   const { clientId } = useClientId();
 
-  const handleSaveEvent = useThrottle(async (evt: MouseEvent) => {
-    if (clientId && testingId && versionId) {
-      await addEvent({
-        clientId,
-        testingId,
-        versionId,
-        eventType: EventType.Position,
-        payload: {
-          x: evt.x,
-          y: evt.y,
-          clientX: evt.clientX,
-          clientY: evt.clientY,
-        },
-      });
-    }
-  }, 1000);
+  const handleSaveEvent = useThrottle(
+    useCallback(
+      async (evt: MouseEvent) => {
+        if (clientId && testingId && versionId) {
+          await addEvent({
+            clientId,
+            testingId,
+            versionId,
+            eventType: EventType.Position,
+            payload: {
+              x: evt.x,
+              y: evt.y,
+              clientX: evt.clientX,
+              clientY: evt.clientY,
+            },
+          });
+        }
+      },
+      [clientId, testingId, versionId]
+    ),
+    1000
+  );
 
   useEffect(() => {
     if (ref && testingId && versionId) {
