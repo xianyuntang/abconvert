@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useMemo, useState } from 'react';
-import { EventType, GetTestingResultResponse_Event } from 'shared';
 
 import { testingService } from '../../../services';
 import Select from '../../select';
@@ -47,45 +46,9 @@ const StatisticsPage = () => {
   const handleTestingSelect = (evt: ChangeEvent<HTMLSelectElement>) => {
     setSelectedTesting(evt.target.value);
   };
-
-  const compute = (events: GetTestingResultResponse_Event[]) => {
-    const visits = new Set();
-    let timeOnPage = 0;
-    const clickMap = new Map();
-
-    events.map((event) => {
-      if (event.eventType === EventType.Enter) {
-        visits.add(event.clientId);
-      }
-      if (event.eventType === EventType.Stay) {
-        timeOnPage += 1;
-      }
-      if (event.eventType === EventType.Click) {
-        const payload = JSON.parse(event.payload);
-        const eleId = payload['id'];
-        clickMap.set(eleId, (clickMap.get(eleId) || 0) + 1);
-      }
-    });
-    const clickElements = Array.from(clickMap.keys());
-    return {
-      visits: visits.size,
-      averageTimeOnPage: visits.size > 0 ? timeOnPage / visits.size : 0,
-      clickMap,
-      clickElements,
-    };
-  };
-
-  const primary = useMemo(() => {
-    if (testingResult?.data.primary) {
-      return compute(testingResult?.data?.primary);
-    }
-  }, [testingResult?.data?.primary]);
-
-  const testing = useMemo(() => {
-    if (testingResult?.data?.testing) {
-      return compute(testingResult?.data?.testing);
-    }
-  }, [testingResult?.data?.testing]);
+  const primary = testingResult?.data?.primary;
+  const testing = testingResult?.data?.testing;
+  const clickElements = testingResult?.data?.clickElements;
 
   return (
     <div className="flex h-svh justify-center p-10">
@@ -117,11 +80,11 @@ const StatisticsPage = () => {
                 <td className="border">{primary.averageTimeOnPage}</td>
                 <td className="border">{testing.averageTimeOnPage}</td>
               </tr>
-              {primary.clickElements.map((ele) => (
+              {clickElements?.map((ele) => (
                 <tr className="border-b" key={ele}>
                   <td className="border text-left">DOM {ele} clicked times</td>
-                  <td className="border">{primary.clickMap.get(ele) || 0}</td>
-                  <td className="border">{testing.clickMap.get(ele) || 0}</td>
+                  <td className="border">{primary.clickMap?.[ele] || 0}</td>
+                  <td className="border">{testing.clickMap?.[ele] || 0}</td>
                 </tr>
               ))}
             </tbody>

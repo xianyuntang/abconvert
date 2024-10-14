@@ -38,16 +38,15 @@ message GetTestingResultRequest{
 }
 
 message GetTestingResultResponse {
-  repeated  Event primary = 1;
-  repeated  Event testing = 2;
+  Statistics primary = 1;
+  Statistics testing = 2;
+  repeated string clickElements = 3;
 
-  message Event {
-    string client_id = 1;
-    string testing_id = 2;
-    string version_id = 3;
-    string event_type = 4;
-    string payload = 5;
-    string event_date = 6;
+  message Statistics {
+    int32 visits = 1;
+    double averageTimeOnPage = 2;
+    map<string, int32> clickMap = 3;
+
   }
 }
 

@@ -5,7 +5,7 @@ export interface EventPayload {
   testingId: string;
   versionId: string;
   eventType: EventType;
-  payload?: object;
+  payload?: object | string;
 }
 
 export type AddEventRequest = EventPayload;

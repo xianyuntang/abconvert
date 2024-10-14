@@ -6,10 +6,14 @@ import { Inject, Injectable } from '@nestjs/common';
 import dayjs from 'dayjs';
 import {
   CLICKHOUSE_CLIENT_TOKEN,
+  EventPayload,
+  EventType,
   GetRunningTestingRequest,
   GetTestingRequest,
   GetTestingResultRequest,
   GetTestingResultResponse,
+  GetTestingResultResponse_Statistics,
+  mapToObject,
   StartTestingRequest,
   StopTestingRequest,
 } from 'shared';
@@ -93,7 +97,10 @@ export class TestingsService {
   }
 
   @CreateRequestContext()
-  async getTestingResult({ productId, testingId }: GetTestingResultRequest) {
+  async getTestingResult({
+    productId,
+    testingId,
+  }: GetTestingResultRequest): Promise<GetTestingResultResponse> {
     const testing = await this.testingRepository.findOneOrFail(
       {
         id: testingId,
@@ -122,11 +129,23 @@ export class TestingsService {
               from events
               where version_id = '${testing.versionB.id}'`,
     });
+
+    const primaryEvents = (await versionA.json()).data as EventPayload[];
+
+    const testingEvents = (await versionB.json()).data as EventPayload[];
+
+    const primaryStatistics = await this.computeEventStatistics(primaryEvents);
+    const testingStatistics = await this.computeEventStatistics(testingEvents);
+
     return {
-      primary: (await versionA.json())
-        .data as GetTestingResultResponse['primary'],
-      testing: (await versionB.json())
-        .data as GetTestingResultResponse['testing'],
+      primary: primaryStatistics,
+      testing: testingStatistics,
+      clickElements: Array.from(
+        new Set([
+          ...Object.keys(primaryStatistics.clickMap),
+          ...Object.keys(testingStatistics.clickMap),
+        ])
+      ),
     };
   }
 
@@ -145,5 +164,33 @@ export class TestingsService {
       testingVersionId: testing.versionB.id,
       createdAt: dayjs(testing.createdAt).format('YYYY-MM-DD HH:mm:ss'),
     }));
+  }
+
+  private async computeEventStatistics(
+    events: EventPayload[]
+  ): Promise<GetTestingResultResponse_Statistics> {
+    const visits = new Set<string>();
+    let timeOnPage = 0;
+    const clickMap = new Map<string, number>();
+
+    events.map((event) => {
+      if (event.eventType === EventType.Enter) {
+        visits.add(event.clientId);
+      }
+      if (event.eventType === EventType.Stay) {
+        timeOnPage += 1;
+      }
+      if (event.eventType === EventType.Click) {
+        const payload = JSON.parse(event.payload as string);
+        const eleId = payload['id'];
+        clickMap.set(eleId, (clickMap.get(eleId) || 0) + 1);
+      }
+    });
+
+    return {
+      visits: visits.size,
+      averageTimeOnPage: visits.size > 0 ? timeOnPage / visits.size : 0,
+      clickMap: mapToObject(clickMap),
+    };
   }
 }

@@ -100,42 +100,36 @@ export interface GetTestingResultRequest {
  */
 export interface GetTestingResultResponse {
     /**
-     * @generated from protobuf field: repeated backend.GetTestingResultResponse.Event primary = 1;
+     * @generated from protobuf field: backend.GetTestingResultResponse.Statistics primary = 1;
      */
-    primary: GetTestingResultResponse_Event[];
+    primary?: GetTestingResultResponse_Statistics;
     /**
-     * @generated from protobuf field: repeated backend.GetTestingResultResponse.Event testing = 2;
+     * @generated from protobuf field: backend.GetTestingResultResponse.Statistics testing = 2;
      */
-    testing: GetTestingResultResponse_Event[];
+    testing?: GetTestingResultResponse_Statistics;
+    /**
+     * @generated from protobuf field: repeated string clickElements = 3;
+     */
+    clickElements: string[];
 }
 /**
- * @generated from protobuf message backend.GetTestingResultResponse.Event
+ * @generated from protobuf message backend.GetTestingResultResponse.Statistics
  */
-export interface GetTestingResultResponse_Event {
+export interface GetTestingResultResponse_Statistics {
     /**
-     * @generated from protobuf field: string client_id = 1;
+     * @generated from protobuf field: int32 visits = 1;
      */
-    clientId: string;
+    visits: number;
     /**
-     * @generated from protobuf field: string testing_id = 2;
+     * @generated from protobuf field: double averageTimeOnPage = 2;
      */
-    testingId: string;
+    averageTimeOnPage: number;
     /**
-     * @generated from protobuf field: string version_id = 3;
+     * @generated from protobuf field: map<string, int32> clickMap = 3;
      */
-    versionId: string;
-    /**
-     * @generated from protobuf field: string event_type = 4;
-     */
-    eventType: string;
-    /**
-     * @generated from protobuf field: string payload = 5;
-     */
-    payload: string;
-    /**
-     * @generated from protobuf field: string event_date = 6;
-     */
-    eventDate: string;
+    clickMap: {
+        [key: string]: number;
+    };
 }
 /**
  * @generated from protobuf message backend.GetTestingRequest
@@ -579,14 +573,14 @@ export const GetTestingResultRequest = new GetTestingResultRequest$Type();
 class GetTestingResultResponse$Type extends MessageType<GetTestingResultResponse> {
     constructor() {
         super("backend.GetTestingResultResponse", [
-            { no: 1, name: "primary", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GetTestingResultResponse_Event },
-            { no: 2, name: "testing", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => GetTestingResultResponse_Event }
+            { no: 1, name: "primary", kind: "message", T: () => GetTestingResultResponse_Statistics },
+            { no: 2, name: "testing", kind: "message", T: () => GetTestingResultResponse_Statistics },
+            { no: 3, name: "clickElements", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<GetTestingResultResponse>): GetTestingResultResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.primary = [];
-        message.testing = [];
+        message.clickElements = [];
         if (value !== undefined)
             reflectionMergePartial<GetTestingResultResponse>(this, message, value);
         return message;
@@ -596,11 +590,14 @@ class GetTestingResultResponse$Type extends MessageType<GetTestingResultResponse
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* repeated backend.GetTestingResultResponse.Event primary */ 1:
-                    message.primary.push(GetTestingResultResponse_Event.internalBinaryRead(reader, reader.uint32(), options));
+                case /* backend.GetTestingResultResponse.Statistics primary */ 1:
+                    message.primary = GetTestingResultResponse_Statistics.internalBinaryRead(reader, reader.uint32(), options, message.primary);
                     break;
-                case /* repeated backend.GetTestingResultResponse.Event testing */ 2:
-                    message.testing.push(GetTestingResultResponse_Event.internalBinaryRead(reader, reader.uint32(), options));
+                case /* backend.GetTestingResultResponse.Statistics testing */ 2:
+                    message.testing = GetTestingResultResponse_Statistics.internalBinaryRead(reader, reader.uint32(), options, message.testing);
+                    break;
+                case /* repeated string clickElements */ 3:
+                    message.clickElements.push(reader.string());
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -614,12 +611,15 @@ class GetTestingResultResponse$Type extends MessageType<GetTestingResultResponse
         return message;
     }
     internalBinaryWrite(message: GetTestingResultResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* repeated backend.GetTestingResultResponse.Event primary = 1; */
-        for (let i = 0; i < message.primary.length; i++)
-            GetTestingResultResponse_Event.internalBinaryWrite(message.primary[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        /* repeated backend.GetTestingResultResponse.Event testing = 2; */
-        for (let i = 0; i < message.testing.length; i++)
-            GetTestingResultResponse_Event.internalBinaryWrite(message.testing[i], writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* backend.GetTestingResultResponse.Statistics primary = 1; */
+        if (message.primary)
+            GetTestingResultResponse_Statistics.internalBinaryWrite(message.primary, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* backend.GetTestingResultResponse.Statistics testing = 2; */
+        if (message.testing)
+            GetTestingResultResponse_Statistics.internalBinaryWrite(message.testing, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* repeated string clickElements = 3; */
+        for (let i = 0; i < message.clickElements.length; i++)
+            writer.tag(3, WireType.LengthDelimited).string(message.clickElements[i]);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -631,51 +631,36 @@ class GetTestingResultResponse$Type extends MessageType<GetTestingResultResponse
  */
 export const GetTestingResultResponse = new GetTestingResultResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class GetTestingResultResponse_Event$Type extends MessageType<GetTestingResultResponse_Event> {
+class GetTestingResultResponse_Statistics$Type extends MessageType<GetTestingResultResponse_Statistics> {
     constructor() {
-        super("backend.GetTestingResultResponse.Event", [
-            { no: 1, name: "client_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "testing_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "version_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "event_type", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "payload", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "event_date", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        super("backend.GetTestingResultResponse.Statistics", [
+            { no: 1, name: "visits", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 2, name: "averageTimeOnPage", kind: "scalar", T: 1 /*ScalarType.DOUBLE*/ },
+            { no: 3, name: "clickMap", kind: "map", K: 9 /*ScalarType.STRING*/, V: { kind: "scalar", T: 5 /*ScalarType.INT32*/ } }
         ]);
     }
-    create(value?: PartialMessage<GetTestingResultResponse_Event>): GetTestingResultResponse_Event {
+    create(value?: PartialMessage<GetTestingResultResponse_Statistics>): GetTestingResultResponse_Statistics {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.clientId = "";
-        message.testingId = "";
-        message.versionId = "";
-        message.eventType = "";
-        message.payload = "";
-        message.eventDate = "";
+        message.visits = 0;
+        message.averageTimeOnPage = 0;
+        message.clickMap = {};
         if (value !== undefined)
-            reflectionMergePartial<GetTestingResultResponse_Event>(this, message, value);
+            reflectionMergePartial<GetTestingResultResponse_Statistics>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetTestingResultResponse_Event): GetTestingResultResponse_Event {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetTestingResultResponse_Statistics): GetTestingResultResponse_Statistics {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string client_id */ 1:
-                    message.clientId = reader.string();
+                case /* int32 visits */ 1:
+                    message.visits = reader.int32();
                     break;
-                case /* string testing_id */ 2:
-                    message.testingId = reader.string();
+                case /* double averageTimeOnPage */ 2:
+                    message.averageTimeOnPage = reader.double();
                     break;
-                case /* string version_id */ 3:
-                    message.versionId = reader.string();
-                    break;
-                case /* string event_type */ 4:
-                    message.eventType = reader.string();
-                    break;
-                case /* string payload */ 5:
-                    message.payload = reader.string();
-                    break;
-                case /* string event_date */ 6:
-                    message.eventDate = reader.string();
+                case /* map<string, int32> clickMap */ 3:
+                    this.binaryReadMap3(message.clickMap, reader, options);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -688,25 +673,32 @@ class GetTestingResultResponse_Event$Type extends MessageType<GetTestingResultRe
         }
         return message;
     }
-    internalBinaryWrite(message: GetTestingResultResponse_Event, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string client_id = 1; */
-        if (message.clientId !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.clientId);
-        /* string testing_id = 2; */
-        if (message.testingId !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.testingId);
-        /* string version_id = 3; */
-        if (message.versionId !== "")
-            writer.tag(3, WireType.LengthDelimited).string(message.versionId);
-        /* string event_type = 4; */
-        if (message.eventType !== "")
-            writer.tag(4, WireType.LengthDelimited).string(message.eventType);
-        /* string payload = 5; */
-        if (message.payload !== "")
-            writer.tag(5, WireType.LengthDelimited).string(message.payload);
-        /* string event_date = 6; */
-        if (message.eventDate !== "")
-            writer.tag(6, WireType.LengthDelimited).string(message.eventDate);
+    private binaryReadMap3(map: GetTestingResultResponse_Statistics["clickMap"], reader: IBinaryReader, options: BinaryReadOptions): void {
+        let len = reader.uint32(), end = reader.pos + len, key: keyof GetTestingResultResponse_Statistics["clickMap"] | undefined, val: GetTestingResultResponse_Statistics["clickMap"][any] | undefined;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case 1:
+                    key = reader.string();
+                    break;
+                case 2:
+                    val = reader.int32();
+                    break;
+                default: throw new globalThis.Error("unknown map entry field for field backend.GetTestingResultResponse.Statistics.clickMap");
+            }
+        }
+        map[key ?? ""] = val ?? 0;
+    }
+    internalBinaryWrite(message: GetTestingResultResponse_Statistics, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* int32 visits = 1; */
+        if (message.visits !== 0)
+            writer.tag(1, WireType.Varint).int32(message.visits);
+        /* double averageTimeOnPage = 2; */
+        if (message.averageTimeOnPage !== 0)
+            writer.tag(2, WireType.Bit64).double(message.averageTimeOnPage);
+        /* map<string, int32> clickMap = 3; */
+        for (let k of globalThis.Object.keys(message.clickMap))
+            writer.tag(3, WireType.LengthDelimited).fork().tag(1, WireType.LengthDelimited).string(k).tag(2, WireType.Varint).int32(message.clickMap[k]).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -714,9 +706,9 @@ class GetTestingResultResponse_Event$Type extends MessageType<GetTestingResultRe
     }
 }
 /**
- * @generated MessageType for protobuf message backend.GetTestingResultResponse.Event
+ * @generated MessageType for protobuf message backend.GetTestingResultResponse.Statistics
  */
-export const GetTestingResultResponse_Event = new GetTestingResultResponse_Event$Type();
+export const GetTestingResultResponse_Statistics = new GetTestingResultResponse_Statistics$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetTestingRequest$Type extends MessageType<GetTestingRequest> {
     constructor() {
