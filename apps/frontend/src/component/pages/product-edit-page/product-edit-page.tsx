@@ -93,6 +93,14 @@ const ProductEditorPage = () => {
     }
   };
 
+  const gotoStatisticsPage = async () => {
+    await router.push(`/products/${id}}/statistics`);
+  };
+
+  const gotoProductPage = async () => {
+    await router.push(`/products/${id}`);
+  };
+
   return (
     <div className="flex h-svh flex-col items-center justify-center p-10">
       <div className="mx-auto max-w-3xl rounded-lg bg-yellow-50 p-6 shadow-md">
@@ -208,16 +216,14 @@ const ProductEditorPage = () => {
           </div>
         </div>
         <footer className="mt-12 text-center">
-          {runningTesting?.data?.id && (
-            <div className="text-red-400">A/B testing is running</div>
-          )}
-
           <div className="flex justify-end gap-4">
             {runningTesting?.data?.id ? (
               <Button onClick={handleStopTestingClick}>STOP</Button>
             ) : (
               <Button onClick={handleSubmit(onCreateVersion)}>START</Button>
             )}
+            <Button onClick={gotoProductPage}>PRODUCT</Button>
+            <Button onClick={gotoStatisticsPage}>STATISTICS</Button>
           </div>
           <p className="text-sm text-gray-500">Powered by ABConvert</p>
         </footer>

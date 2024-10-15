@@ -3,7 +3,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import path from 'path';
 
 import { AppConfigService } from '../app-config';
-import { BACKEND_PACKAGE_TOKEN } from './backend.constant';
+import { BACKEND_PACKAGE_NAME } from './backend.constant';
 import { TestingsController, VersionsController } from './controllers';
 
 @Module({
@@ -11,7 +11,7 @@ import { TestingsController, VersionsController } from './controllers';
     ClientsModule.registerAsync({
       clients: [
         {
-          name: BACKEND_PACKAGE_TOKEN,
+          name: BACKEND_PACKAGE_NAME,
           useFactory: (appConfigService: AppConfigService) => {
             const {
               services: {

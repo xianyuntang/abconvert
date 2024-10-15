@@ -1,1 +1,1 @@
-export * from './gen/backend';
+export * from './gen';

@@ -1,20 +1,20 @@
 import { Controller, Get, Inject, OnModuleInit, Param } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { VersionServiceClient } from 'shared';
+import { VERSION_SERVICE_NAME, VersionServiceClient } from 'shared';
 
-import { BACKEND_PACKAGE_TOKEN } from '../backend.constant';
+import { BACKEND_PACKAGE_NAME } from '../backend.constant';
 
 @Controller('backend/products/:productId/versions')
 export class VersionsController implements OnModuleInit {
   private versionServiceClient!: VersionServiceClient;
 
   constructor(
-    @Inject(BACKEND_PACKAGE_TOKEN) private readonly clientGrpc: ClientGrpc
+    @Inject(BACKEND_PACKAGE_NAME) private readonly clientGrpc: ClientGrpc
   ) {}
 
   async onModuleInit() {
     this.versionServiceClient =
-      this.clientGrpc.getService<VersionServiceClient>('VersionService');
+      this.clientGrpc.getService<VersionServiceClient>(VERSION_SERVICE_NAME);
   }
 
   @Get('')

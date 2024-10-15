@@ -1,5 +1,4 @@
 import { Controller, UseFilters } from '@nestjs/common';
-import { GrpcMethod } from '@nestjs/microservices';
 import dayjs from 'dayjs';
 import {
   GetSpecifiedVersionRequest,
@@ -7,17 +6,19 @@ import {
   GetVersionResponse,
   ListVersionsRequest,
   ListVersionsResponse,
+  VersionServiceController,
+  VersionServiceControllerMethods,
 } from 'shared';
 
 import { GrpcExceptionsFilter } from '../filters';
 import { VersionsService } from './versions.service';
 
 @Controller()
+@VersionServiceControllerMethods()
 @UseFilters(GrpcExceptionsFilter)
-export class VersionsController {
+export class VersionsController implements VersionServiceController {
   constructor(private readonly versionsService: VersionsService) {}
 
-  @GrpcMethod('VersionService', 'ListVersions')
   async listVersions({
     productId,
   }: ListVersionsRequest): Promise<ListVersionsResponse> {
@@ -44,8 +45,7 @@ export class VersionsController {
     };
   }
 
-  @GrpcMethod('VersionService', 'GetVersion')
-  async GetVersion({
+  async getVersion({
     productId,
     versionId,
   }: GetSpecifiedVersionRequest): Promise<GetVersionResponse> {
@@ -71,7 +71,6 @@ export class VersionsController {
     };
   }
 
-  @GrpcMethod('VersionService', 'GetPrimaryVersion')
   async getPrimaryVersion({
     productId,
   }: GetVersionRequest): Promise<GetVersionResponse> {
@@ -94,7 +93,6 @@ export class VersionsController {
     };
   }
 
-  @GrpcMethod('VersionService', 'GetRandomVersion')
   async getRandomVersion({
     productId,
   }: GetVersionRequest): Promise<GetVersionResponse> {

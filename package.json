@@ -11,7 +11,7 @@
     "event-worker:build": "nx run event-worker:build",
     "backend:dev": "nx run backend:serve",
     "backend:build": "nx run backend:build",
-    "generate:proto": "protoc  --ts_out=./libs/shared/src/grpc/gen --proto_path=./libs/shared/src/grpc  $(find ./libs/shared/src/grpc -name '*.proto')",
+    "generate:proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./libs/shared/src/grpc/gen --ts_proto_opt=nestJs=true,exportCommonSymbols=false --proto_path=./libs/shared/src/grpc  $(find ./libs/shared/src/grpc -name '*.proto')",
     "lint": "nx run-many --target=lint --all",
     "prepare": "husky"
   },
@@ -95,6 +95,7 @@
     "tailwindcss": "3.4.3",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
+    "ts-proto": "^2.2.3",
     "typescript": "~5.5.2",
     "typescript-eslint": "^8.7.0",
     "webpack-cli": "^5.1.4"

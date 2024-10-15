@@ -10,22 +10,23 @@ import {
   Post,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { TestingServiceClient } from 'shared';
+import { firstValueFrom } from 'rxjs';
+import { TESTING_SERVICE_NAME, TestingServiceClient } from 'shared';
 
-import { BACKEND_PACKAGE_TOKEN } from '../backend.constant';
+import { BACKEND_PACKAGE_NAME } from '../backend.constant';
 import { CreateVersionRequestDto } from '../dto/create-version.dto';
 
 @Controller('backend/products/:productId/testings')
 export class TestingsController implements OnModuleInit {
-  private testingServiceClient!: TestingServiceClient;
+  private testingService!: TestingServiceClient;
 
   constructor(
-    @Inject(BACKEND_PACKAGE_TOKEN) private readonly clientGrpc: ClientGrpc
+    @Inject(BACKEND_PACKAGE_NAME) private readonly clientGrpc: ClientGrpc
   ) {}
 
   async onModuleInit() {
-    this.testingServiceClient =
-      this.clientGrpc.getService<TestingServiceClient>('TestingService');
+    this.testingService =
+      this.clientGrpc.getService<TestingServiceClient>(TESTING_SERVICE_NAME);
   }
 
   @Post('start')
@@ -34,7 +35,7 @@ export class TestingsController implements OnModuleInit {
     @Param('productId') productId: string,
     @Body() dto: CreateVersionRequestDto
   ) {
-    return this.testingServiceClient.startTesting({
+    return this.testingService.startTesting({
       productId,
       details: dto.details,
     });
@@ -43,14 +44,14 @@ export class TestingsController implements OnModuleInit {
   @Post('stop')
   @HttpCode(HttpStatus.OK)
   async stopTesting(@Param('productId') productId: string) {
-    return this.testingServiceClient.stopTesting({
+    return this.testingService.stopTesting({
       productId,
     });
   }
 
   @Get('running')
   async getRunningTesting(@Param('productId') productId: string) {
-    return this.testingServiceClient.getRunningTesting({
+    return this.testingService.getRunningTesting({
       productId,
     });
   }
@@ -60,7 +61,7 @@ export class TestingsController implements OnModuleInit {
     @Param('productId') productId: string,
     @Param('testingId') testingId: string
   ) {
-    return this.testingServiceClient.getTestingResult({
+    return this.testingService.getTestingResult({
       productId,
       testingId,
     });
@@ -68,8 +69,14 @@ export class TestingsController implements OnModuleInit {
 
   @Get()
   async getTestings(@Param('productId') productId: string) {
-    return this.testingServiceClient.getTestings({
-      productId,
-    });
+    const response = await firstValueFrom(
+      this.testingService.getTestings({
+        productId,
+      })
+    );
+
+    if (!response.data) {
+      return { data: [] };
+    }
   }
 }
