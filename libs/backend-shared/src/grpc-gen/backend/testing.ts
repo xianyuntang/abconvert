@@ -28,6 +28,8 @@ export interface GetRunningTestingRequest {
 
 export interface GetRunningTestingResponse {
   id?: string | undefined;
+  primaryId?: string | undefined;
+  testingId?: string | undefined;
 }
 
 export interface StopTestingRequest {

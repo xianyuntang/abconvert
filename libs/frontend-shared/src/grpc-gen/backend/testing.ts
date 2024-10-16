@@ -27,6 +27,8 @@ export interface GetRunningTestingRequest {
 
 export interface GetRunningTestingResponse {
   id?: string | undefined;
+  primaryId?: string | undefined;
+  testingId?: string | undefined;
 }
 
 export interface StopTestingRequest {
@@ -345,13 +347,19 @@ export const GetRunningTestingRequest: MessageFns<GetRunningTestingRequest> = {
 };
 
 function createBaseGetRunningTestingResponse(): GetRunningTestingResponse {
-  return { id: undefined };
+  return { id: undefined, primaryId: undefined, testingId: undefined };
 }
 
 export const GetRunningTestingResponse: MessageFns<GetRunningTestingResponse> = {
   encode(message: GetRunningTestingResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.id !== undefined) {
       writer.uint32(10).string(message.id);
+    }
+    if (message.primaryId !== undefined) {
+      writer.uint32(18).string(message.primaryId);
+    }
+    if (message.testingId !== undefined) {
+      writer.uint32(26).string(message.testingId);
     }
     return writer;
   },
@@ -371,6 +379,22 @@ export const GetRunningTestingResponse: MessageFns<GetRunningTestingResponse> = 
           message.id = reader.string();
           continue;
         }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.primaryId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.testingId = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -381,13 +405,23 @@ export const GetRunningTestingResponse: MessageFns<GetRunningTestingResponse> = 
   },
 
   fromJSON(object: any): GetRunningTestingResponse {
-    return { id: isSet(object.id) ? globalThis.String(object.id) : undefined };
+    return {
+      id: isSet(object.id) ? globalThis.String(object.id) : undefined,
+      primaryId: isSet(object.primaryId) ? globalThis.String(object.primaryId) : undefined,
+      testingId: isSet(object.testingId) ? globalThis.String(object.testingId) : undefined,
+    };
   },
 
   toJSON(message: GetRunningTestingResponse): unknown {
     const obj: any = {};
     if (message.id !== undefined) {
       obj.id = message.id;
+    }
+    if (message.primaryId !== undefined) {
+      obj.primaryId = message.primaryId;
+    }
+    if (message.testingId !== undefined) {
+      obj.testingId = message.testingId;
     }
     return obj;
   },
@@ -398,6 +432,8 @@ export const GetRunningTestingResponse: MessageFns<GetRunningTestingResponse> = 
   fromPartial<I extends Exact<DeepPartial<GetRunningTestingResponse>, I>>(object: I): GetRunningTestingResponse {
     const message = createBaseGetRunningTestingResponse();
     message.id = object.id ?? undefined;
+    message.primaryId = object.primaryId ?? undefined;
+    message.testingId = object.testingId ?? undefined;
     return message;
   },
 };

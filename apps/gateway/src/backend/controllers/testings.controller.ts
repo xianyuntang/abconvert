@@ -78,5 +78,7 @@ export class TestingsController implements OnModuleInit {
     if (!response.data) {
       return { data: [] };
     }
+
+    return response;
   }
 }

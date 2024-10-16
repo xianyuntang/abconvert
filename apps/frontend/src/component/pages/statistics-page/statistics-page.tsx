@@ -3,11 +3,8 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, useMemo, useState } from 'react';
 
 import { testingService } from '../../../services';
-import Select from '../../select';
 
 const StatisticsPage = () => {
-  const [selectedTesting, setSelectedTesting] = useState<string | null>(null);
-
   const router = useRouter();
   const { id } = router.query;
 
@@ -21,31 +18,19 @@ const StatisticsPage = () => {
     enabled: !!id,
   });
 
+  const selectedTesting = testings?.data?.data[testings.data.data.length - 1];
+
   const { data: testingResult } = useQuery({
-    queryKey: ['testing-result', id, selectedTesting],
+    queryKey: ['testing-result', id, selectedTesting?.id],
     queryFn: async ({ queryKey: [, id, testingId] }) => {
       return testingService.getTestingResultRequest({
         productId: id as string,
         testingId: testingId as string,
       });
     },
-    enabled: !!id && !!selectedTesting,
+    enabled: !!id && !!selectedTesting?.id,
   });
 
-  const options = useMemo(() => {
-    return (
-      testings?.data?.data.map((item) => {
-        return {
-          text: item.createdAt,
-          value: item.id,
-        };
-      }) || []
-    );
-  }, [testings]);
-
-  const handleTestingSelect = (evt: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTesting(evt.target.value);
-  };
   const primary = testingResult?.data?.primary;
   const testing = testingResult?.data?.testing;
   const clickElements = testingResult?.data?.clickElements;
@@ -53,13 +38,6 @@ const StatisticsPage = () => {
   return (
     <div className="flex h-svh justify-center p-10">
       <div className="mx-auto w-1/2 rounded-lg bg-yellow-50 p-6 shadow-md">
-        <div className="text-black">
-          <Select
-            label="Testing"
-            options={options}
-            onSelect={handleTestingSelect}
-          ></Select>
-        </div>
         {primary && testing ? (
           <table className="w-full text-center text-black">
             <thead>

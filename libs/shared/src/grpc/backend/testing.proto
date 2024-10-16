@@ -22,6 +22,8 @@ message GetRunningTestingRequest {
 
 message GetRunningTestingResponse {
   optional string id = 1;
+  optional string primaryId = 2;
+  optional string testingId = 3;
 }
 
 message StopTestingRequest {

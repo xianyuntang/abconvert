@@ -72,11 +72,18 @@ export class TestingsService {
 
   @CreateRequestContext()
   async getRunningTesting({ productId }: GetRunningTestingRequest) {
-    const testing = await this.testingRepository.findOne({
-      product: productId,
-      isRunning: true,
-    });
-    return { id: testing?.id };
+    const testing = await this.testingRepository.findOne(
+      {
+        product: productId,
+        isRunning: true,
+      },
+      { populate: ['versionA', 'versionB'] }
+    );
+    return {
+      id: testing?.id,
+      primaryId: testing?.versionA.id,
+      testingId: testing?.versionB.id,
+    };
   }
 
   @CreateRequestContext()

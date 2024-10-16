@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { testingService, versionService } from '../../../services';
@@ -24,25 +24,32 @@ interface VersionForm {
   feature3: string;
 }
 
-const ProductEditorPage = () => {
+const ProductTestingPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { watch, control, reset, handleSubmit } = useForm<VersionForm>({});
-
-  const { data: currentVersion } = useQuery({
-    queryKey: ['current-version', id],
-    queryFn: ({ queryKey: [, id] }) => {
-      return versionService.getPrimaryVersion({ productId: id as string });
-    },
-
-    enabled: !!id,
-  });
 
   const { data: runningTesting, refetch } = useQuery({
     queryKey: ['testing-status', id],
     queryFn: ({ queryKey: [, id] }) => {
       return testingService.getRunningTesting({ productId: id as string });
     },
+    enabled: !!id,
+  });
+
+  const { data: currentVersion } = useQuery({
+    queryKey: ['current-version', id, runningTesting],
+    queryFn: ({ queryKey: [, id] }) => {
+      if (runningTesting?.data.testingId) {
+        return versionService.gerVersion({
+          productId: id as string,
+          versionId: runningTesting.data.testingId,
+        });
+      } else {
+        return versionService.getPrimaryVersion({ productId: id as string });
+      }
+    },
+
     enabled: !!id,
   });
 
@@ -68,6 +75,10 @@ const ProductEditorPage = () => {
 
   const price2 = watch('price2');
   const price3 = watch('price3');
+
+  const isTestingRunning = useMemo(() => {
+    return !!runningTesting?.data?.id;
+  }, [runningTesting]);
 
   const onCreateVersion = async (form: VersionForm) => {
     await testingService.startTesting({
@@ -113,7 +124,9 @@ const ProductEditorPage = () => {
           <Controller
             name="title"
             control={control}
-            render={({ field }) => <TextField {...field} />}
+            render={({ field }) => (
+              <TextField {...field} disabled={isTestingRunning} />
+            )}
           />
         </h1>
         <div id="price" className="mb-4 text-2xl text-gray-800">
@@ -121,7 +134,12 @@ const ProductEditorPage = () => {
             name="price1"
             control={control}
             render={({ field }) => (
-              <TextField className="w-14" prefix="$" {...field} />
+              <TextField
+                className="w-14"
+                prefix="$"
+                {...field}
+                disabled={isTestingRunning}
+              />
             )}
           />
         </div>
@@ -133,7 +151,13 @@ const ProductEditorPage = () => {
           <Controller
             name="description"
             control={control}
-            render={({ field }) => <TextArea className="h-52" {...field} />}
+            render={({ field }) => (
+              <TextArea
+                className="h-52"
+                {...field}
+                disabled={isTestingRunning}
+              />
+            )}
           />
         </ul>
 
@@ -145,7 +169,9 @@ const ProductEditorPage = () => {
               <Controller
                 name="feature1"
                 control={control}
-                render={({ field }) => <TextField {...field} />}
+                render={({ field }) => (
+                  <TextField {...field} disabled={isTestingRunning} />
+                )}
               />
             </div>
           </div>
@@ -156,7 +182,9 @@ const ProductEditorPage = () => {
               <Controller
                 name="feature2"
                 control={control}
-                render={({ field }) => <TextField {...field} />}
+                render={({ field }) => (
+                  <TextField {...field} disabled={isTestingRunning} />
+                )}
               />
             </div>
           </div>
@@ -167,7 +195,9 @@ const ProductEditorPage = () => {
               <Controller
                 name="feature3"
                 control={control}
-                render={({ field }) => <TextField {...field} />}
+                render={({ field }) => (
+                  <TextField {...field} disabled={isTestingRunning} />
+                )}
               />
             </div>
           </div>
@@ -189,7 +219,12 @@ const ProductEditorPage = () => {
                 name="price2"
                 control={control}
                 render={({ field }) => (
-                  <TextField className="w-10" prefix="$" {...field} />
+                  <TextField
+                    className="w-10"
+                    prefix="$"
+                    {...field}
+                    disabled={isTestingRunning}
+                  />
                 )}
               />
 
@@ -206,7 +241,12 @@ const ProductEditorPage = () => {
                 name="price3"
                 control={control}
                 render={({ field }) => (
-                  <TextField className="w-10" prefix="$" {...field} />
+                  <TextField
+                    className="w-10"
+                    prefix="$"
+                    {...field}
+                    disabled={isTestingRunning}
+                  />
                 )}
               />
               <p className="text-sm text-gray-500">
@@ -217,7 +257,7 @@ const ProductEditorPage = () => {
         </div>
         <footer className="mt-12 text-center">
           <div className="flex justify-end gap-4">
-            {runningTesting?.data?.id ? (
+            {isTestingRunning ? (
               <Button onClick={handleStopTestingClick}>STOP</Button>
             ) : (
               <Button onClick={handleSubmit(onCreateVersion)}>START</Button>
@@ -232,4 +272,4 @@ const ProductEditorPage = () => {
   );
 };
 
-export default ProductEditorPage;
+export default ProductTestingPage;

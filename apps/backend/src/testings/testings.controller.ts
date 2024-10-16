@@ -35,10 +35,9 @@ export class TestingsController implements TestingServiceController {
   async getRunningTesting({
     productId,
   }: GetRunningTestingRequest): Promise<GetRunningTestingResponse> {
-    const { id } = await this.testingsService.getRunningTesting({
+    return this.testingsService.getRunningTesting({
       productId: productId,
     });
-    return { id };
   }
 
   async stopTesting({
