@@ -2,7 +2,7 @@ import {
   GetSpecifiedVersionRequest,
   GetVersionRequest,
   GetVersionResponse,
-} from 'shared';
+} from 'frontend-shared';
 
 import { fetcher } from '../core';
 

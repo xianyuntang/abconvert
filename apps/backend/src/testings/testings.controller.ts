@@ -12,7 +12,7 @@ import {
   StopTestingResponse,
   TestingServiceController,
   TestingServiceControllerMethods,
-} from 'shared';
+} from 'backend-shared';
 
 import { GrpcExceptionsFilter } from '../filters';
 import { TestingsService } from './testings.service';

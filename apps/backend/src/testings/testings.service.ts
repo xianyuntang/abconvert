@@ -3,20 +3,18 @@ import { status } from '@grpc/grpc-js';
 import { MikroORM } from '@mikro-orm/core';
 import { CreateRequestContext, EntityManager } from '@mikro-orm/postgresql';
 import { Inject, Injectable } from '@nestjs/common';
-import dayjs from 'dayjs';
 import {
   CLICKHOUSE_CLIENT_TOKEN,
-  EventPayload,
-  EventType,
   GetRunningTestingRequest,
   GetTestingRequest,
   GetTestingResultRequest,
   GetTestingResultResponse,
   GetTestingResultResponse_Statistics,
-  mapToObject,
   StartTestingRequest,
   StopTestingRequest,
-} from 'shared';
+} from 'backend-shared';
+import dayjs from 'dayjs';
+import { EventPayload, EventType, mapToObject } from 'shared';
 
 import { GrpcException } from '../filters';
 import {

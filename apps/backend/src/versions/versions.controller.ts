@@ -1,5 +1,4 @@
 import { Controller, UseFilters } from '@nestjs/common';
-import dayjs from 'dayjs';
 import {
   GetSpecifiedVersionRequest,
   GetVersionRequest,
@@ -8,7 +7,8 @@ import {
   ListVersionsResponse,
   VersionServiceController,
   VersionServiceControllerMethods,
-} from 'shared';
+} from 'backend-shared';
+import dayjs from 'dayjs';
 
 import { GrpcExceptionsFilter } from '../filters';
 import { VersionsService } from './versions.service';

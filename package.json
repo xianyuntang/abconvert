@@ -11,7 +11,9 @@
     "event-worker:build": "nx run event-worker:build",
     "backend:dev": "nx run backend:serve",
     "backend:build": "nx run backend:build",
-    "generate:proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./libs/shared/src/grpc/gen --ts_proto_opt=nestJs=true,exportCommonSymbols=false --proto_path=./libs/shared/src/grpc  $(find ./libs/shared/src/grpc -name '*.proto')",
+    "generate:proto": "npm run generate:proto:node && generate:proto:web",
+    "generate:proto:node": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./libs/backend-shared/src/grpc-gen --ts_proto_opt=nestJs=true,exportCommonSymbols=false --proto_path=./libs/shared/src/grpc  $(find ./libs/shared/src/grpc -name '*.proto')",
+    "generate:proto:web": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./libs/frontend-shared/src/grpc-gen --ts_proto_opt=useGrpcWeb=true,exportCommonSymbols=false --proto_path=./libs/shared/src/grpc  $(find ./libs/shared/src/grpc -name '*.proto')",
     "lint": "nx run-many --target=lint --all",
     "prepare": "husky"
   },

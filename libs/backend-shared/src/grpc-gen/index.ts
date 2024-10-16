@@ -1,2 +1,2 @@
-export * from './backend/version';
 export * from './backend/testing';
+export * from './backend/version';

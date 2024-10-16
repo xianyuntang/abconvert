@@ -1,7 +1,8 @@
 import { ClickHouseClient } from '@clickhouse/client';
 import { Inject, Injectable } from '@nestjs/common';
+import { CLICKHOUSE_CLIENT_TOKEN } from 'backend-shared';
 import dayjs from 'dayjs';
-import { CLICKHOUSE_CLIENT_TOKEN, EventPayload } from 'shared';
+import { EventPayload } from 'shared';
 
 @Injectable()
 export class EventsService {

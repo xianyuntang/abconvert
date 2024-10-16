@@ -1,6 +1,6 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
-import { ClickhouseModule } from 'shared';
+import { ClickhouseModule } from 'backend-shared';
 
 import { AppConfigService } from '../app-config';
 import { Product, Testing, Version, VersionDetail } from '../orm';

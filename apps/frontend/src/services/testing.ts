@@ -9,7 +9,7 @@ import {
   StartTestingResponse,
   StopTestingRequest,
   StopTestingResponse,
-} from 'shared';
+} from 'frontend-shared';
 
 import { fetcher } from '../core';
 

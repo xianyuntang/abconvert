@@ -1,6 +1,6 @@
 import { Controller, Get, Inject, OnModuleInit, Param } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { VERSION_SERVICE_NAME, VersionServiceClient } from 'shared';
+import { VERSION_SERVICE_NAME, VersionServiceClient } from 'backend-shared';
 
 import { BACKEND_PACKAGE_NAME } from '../backend.constant';
 

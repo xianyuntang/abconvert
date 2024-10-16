@@ -10,8 +10,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
+import { TESTING_SERVICE_NAME, TestingServiceClient } from 'backend-shared';
 import { firstValueFrom } from 'rxjs';
-import { TESTING_SERVICE_NAME, TestingServiceClient } from 'shared';
 
 import { BACKEND_PACKAGE_NAME } from '../backend.constant';
 import { CreateVersionRequestDto } from '../dto/create-version.dto';

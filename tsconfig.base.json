@@ -17,6 +17,8 @@
     "baseUrl": ".",
     "strict": true,
     "paths": {
+      "backend-shared": ["libs/backend-shared/src/index.ts"],
+      "frontend-shared": ["libs/frontend-shared/src/index.ts"],
       "shared": ["libs/shared/src/index.ts"]
     }
   },
