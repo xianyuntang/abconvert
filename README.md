@@ -1,62 +1,153 @@
 # ABConvert interview project
 
-This is an interview project to evaluate candidate's technical proficiency. You will be required to build an A/B testing feature based on the boilerplate repository.
+## Development
 
-## Description
+Please first install [ASDF](https://asdf-vm.com/guide/getting-started.html) to control local Node installations. Our Node versions are fixed and enforced inside `.tool-versions` and `package.json`, which are aligned with the node versions inside each `Dockerfile`.
 
-Imagine you are running an ecommerce store, and you want to A/B test your product page for Black Friday to have better profit this year.
+```bash
+# Install the specified version
+asdf install nodejs 20.9.0
 
-There will be several things you can test:
+# List all installed versions
+asdf list
 
-1. Price
-2. Title
-3. Description
-4. Feature
+# Check currently resolved version
+asdf current
+node -v
+```
 
-![A/B Testing Illustration](instruction-image.png)
+### IDE Setup
 
-Please build an easy-to-use feature that you can:
+If you are using VSCode, first install the extensions:
 
-- Input your test information and start an A/B test
-- Monitor A/B testing results
+- ESLint
+- Prettier - Code formatter
+- Tailwind CSS IntelliSense
+- Nx Console
 
-There must be randomization logic and event tracking for a standard A/B testing practice.
 
-There will be two tracks for this interview:
+## Microservices
 
-1. Backend track: for candidates who are applying for our Sr. Backend Engineer position
-2. Full stack track: for candidates who are applying for our Full Stack Engineer position
+Start / stop the microservices:
 
-In each track, the requirements will be different, and you can find them in the following links:
+```bash
+# Start the microservices:
+./scripts/start-ms.sh
 
-1. [Backend Track Requirements](requirement/backend/README.md)
-2. [Full Stack Track Requirements](requirement/full-stack/README.md)
+# Start and build the microservices:
+./scripts/start-ms.sh --build
 
-## Estimated time to finish
+# Stop the microservices:
+./scripts/stop-ms.sh
+```
 
-Approximately 3 hours - 2 days
+## Web server
 
-## Deliverables:
+Install monorepo dependencies:
 
-1. Source code in a GitHub repository.
-2. A README file explaining:
+```bash
+npm install
+```
 
-   - How to set up and run the project.
-   - Design decisions made during the development.
+Run migration to setup the database:
 
-3. Deployed versions of the frontend and backend (URLs).
-4. A brief document explaining how you ensured scalability, performance, and maintainability.
-5. Demo video
+```bash
+./scripts/refresh-schema.sh
+```
 
-Please send your submission files to talent@abconvert.io.
+Serve the frontend and / or the backend:
 
-## Evaluation criteria
+```bash
 
-1. Coding practice: including code quality, commit history, and development style
-2. Documentation: whether you are good at communication through writing
-3. System design: how you tackle the problem
+# Frontend
+npm run frontend:dev
 
-## How to start the project
+# Backend
+npm run backend:dev
 
-- `yarn install` or `npm install` to install the dependencies
-- `yarn dev` or `npm run dev` to start the local development server
+# Event Worker
+npm run event-worker:dev
+
+# Gateway
+npm run gateway:dev
+```
+
+Then you can see the website at http://localhost:3000/
+
+## Backend
+
+### Migration
+
+```shell
+# Create a new migration file
+./scripts/migrate.sh create <name>
+
+# Apply database migrations to the latest version
+./scripts/migrate.sh up
+
+# Rollback the database to the previous version
+./scripts/migrate.sh down
+```
+
+### Schema Generator
+
+#### _!!! Caution: Do not use this script on a production server !!!_
+
+```shell
+# Drop and regenerate the database schema and seed data
+./scripts/refresh-schema.sh
+
+# Optional: Regenerate the schema without seeding data
+./scripts/refresh-schema.sh --no-seed
+```
+
+Please note that the provided script should only be used in a development environment and not on a production server to avoid any unintended consequences.
+
+
+
+## Architecture
+![architecture.png](assets/architecture.png)
+### Components
+
+* backend
+  * The backend receives requests from the gateway and handles A/B testing version control.
+* gateway
+  * The gateway dispatches user events to the Kafka server and proxies requests to the backend.
+* event-worker
+  * The event worker acts as a Kafka broker, processing user events and store its to clickhouse.
+* kafka
+  * A distribute message queue to receive the use event.
+* clickhouse
+  * a distribute database to store the user event.
+* postgres 
+  * Store product information. Since the product information does not require high throughput, it is chosen to ensure the ACID principles.
+
+
+**The communication protocol between the backend and gateway is GRPC.**
+**All components can extend horizontal.**
+
+### Scalability & Performance
+
+On `4 Core CPU and 4GB memory` machine with 60/20MBps network.
+
+500 clients
+![img.png](assets/1000client.png)
+
+1000 clients
+![img.png](assets/1000client.png)
+
+
+
+### Data storage
+
+The events will be stored in clickhouse for high throughput, while item information will be handled in postgres for atomicity, given that item information doesn't require high throughput.
+
+*(it can be rewritten in command query responsibility segregation if needed  )*
+
+also the item information can be stored to the cache like redis (currently it is not implemented)
+
+
+### Fault Tolerance
+
+The system can be deployed on kubernetes to make sure the fault tolerance.
+
