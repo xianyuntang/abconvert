@@ -201,13 +201,23 @@ The system can be deployed on kubernetes to make sure the fault tolerance.
 
 ## Misc
 
-When a user visits the product page,
-they'll be randomly assigned a version of the product.
-Since they haven't signed in, the client will store a client ID in local storage to make sure they always see the same
-version.
+- ClientId
+    - When a user visits the product page,
+      they'll be randomly assigned a version of the product.
+      Since they haven't signed in, the client will store a client ID in local storage to make sure they always see the
+      same
+      version.
+
+- UserEvent
+    - position event
+    - enter event
+    - stay event
+    - click event
 
 ## TODO
 
 - The backend can be rewritten using the CQRS pattern, and postgres can be set up as replicas.
 - The statistics page can show multiple testing results
 - unittest and e2e test
+- Added redis cache
+- Added statistics worker to accelerate the backed response time.

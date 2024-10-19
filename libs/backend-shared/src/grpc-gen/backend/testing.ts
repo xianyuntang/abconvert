@@ -55,6 +55,7 @@ export interface GetTestingResultResponse_Statistics {
   visits: number;
   averageTimeOnPage: number;
   clickMap: { [key: string]: number };
+  heatmap: string;
 }
 
 export interface GetTestingResultResponse_Statistics_ClickMapEntry {

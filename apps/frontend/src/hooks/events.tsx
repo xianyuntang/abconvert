@@ -24,8 +24,8 @@ export const useRecordMousePosition = (
             payload: {
               x: evt.x,
               y: evt.y,
-              clientX: evt.clientX,
-              clientY: evt.clientY,
+              width: window.innerWidth,
+              height: window.innerHeight,
             },
           });
         }

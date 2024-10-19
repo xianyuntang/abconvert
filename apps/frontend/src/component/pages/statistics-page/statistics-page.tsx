@@ -65,6 +65,15 @@ const StatisticsPage = () => {
                   <td className="border">{testing.clickMap?.[ele] || 0}</td>
                 </tr>
               ))}
+              <tr className="border-b">
+                <td className="border text-left">Mouse Heatmap</td>
+                <td className="border">
+                  <img src={primary.heatmap} width="480px" height="270px" />
+                </td>
+                <td className="border">
+                  <img src={testing.heatmap} width="480px" height="270px" />
+                </td>
+              </tr>
             </tbody>
           </table>
         ) : (

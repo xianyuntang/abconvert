@@ -54,6 +54,7 @@ export interface GetTestingResultResponse_Statistics {
   visits: number;
   averageTimeOnPage: number;
   clickMap: { [key: string]: number };
+  heatmap: string;
 }
 
 export interface GetTestingResultResponse_Statistics_ClickMapEntry {
@@ -729,7 +730,7 @@ export const GetTestingResultResponse: MessageFns<GetTestingResultResponse> = {
 };
 
 function createBaseGetTestingResultResponse_Statistics(): GetTestingResultResponse_Statistics {
-  return { visits: 0, averageTimeOnPage: 0, clickMap: {} };
+  return { visits: 0, averageTimeOnPage: 0, clickMap: {}, heatmap: "" };
 }
 
 export const GetTestingResultResponse_Statistics: MessageFns<GetTestingResultResponse_Statistics> = {
@@ -744,6 +745,9 @@ export const GetTestingResultResponse_Statistics: MessageFns<GetTestingResultRes
       GetTestingResultResponse_Statistics_ClickMapEntry.encode({ key: key as any, value }, writer.uint32(26).fork())
         .join();
     });
+    if (message.heatmap !== "") {
+      writer.uint32(34).string(message.heatmap);
+    }
     return writer;
   },
 
@@ -781,6 +785,14 @@ export const GetTestingResultResponse_Statistics: MessageFns<GetTestingResultRes
           }
           continue;
         }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.heatmap = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -800,6 +812,7 @@ export const GetTestingResultResponse_Statistics: MessageFns<GetTestingResultRes
           return acc;
         }, {})
         : {},
+      heatmap: isSet(object.heatmap) ? globalThis.String(object.heatmap) : "",
     };
   },
 
@@ -819,6 +832,9 @@ export const GetTestingResultResponse_Statistics: MessageFns<GetTestingResultRes
           obj.clickMap[k] = Math.round(v);
         });
       }
+    }
+    if (message.heatmap !== "") {
+      obj.heatmap = message.heatmap;
     }
     return obj;
   },
@@ -840,6 +856,7 @@ export const GetTestingResultResponse_Statistics: MessageFns<GetTestingResultRes
       }
       return acc;
     }, {});
+    message.heatmap = object.heatmap ?? "";
     return message;
   },
 };

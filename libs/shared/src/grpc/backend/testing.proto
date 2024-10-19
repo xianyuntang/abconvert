@@ -44,10 +44,12 @@ message GetTestingResultResponse {
   Statistics testing = 2;
   repeated string clickElements = 3;
 
+
   message Statistics {
     int32 visits = 1;
     double averageTimeOnPage = 2;
     map<string, int32> clickMap = 3;
+    string heatmap = 4;
 
   }
 }
