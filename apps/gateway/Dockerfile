@@ -1,4 +1,4 @@
-FROM node:20.9.0-alpine AS base
+FROM node:20.9.0-slim AS base
 
 # Install builder dependencies
 FROM base AS builder-deps
