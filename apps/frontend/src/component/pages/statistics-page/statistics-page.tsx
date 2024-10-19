@@ -36,8 +36,8 @@ const StatisticsPage = () => {
   const clickElements = testingResult?.data?.clickElements;
 
   return (
-    <div className="flex h-svh justify-center p-10">
-      <div className="mx-auto w-1/2 rounded-lg bg-yellow-50 p-6 shadow-md">
+    <div className="flex justify-center p-10">
+      <div className="mx-auto w-3/4 rounded-lg bg-yellow-50 p-6 shadow-md">
         {primary && testing ? (
           <table className="w-full text-center text-black">
             <thead>
@@ -67,10 +67,10 @@ const StatisticsPage = () => {
               ))}
               <tr className="border-b">
                 <td className="border text-left">Mouse Heatmap</td>
-                <td className="border">
+                <td className="h-[270px] w-[480px] border">
                   <img src={primary.heatmap} width="480px" height="270px" />
                 </td>
-                <td className="border">
+                <td className="h-[270px] w-[480px] border">
                   <img src={testing.heatmap} width="480px" height="270px" />
                 </td>
               </tr>
