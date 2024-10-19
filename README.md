@@ -31,6 +31,8 @@ If you are using VSCode, first install the extensions:
 
 Start / stop the microservices:
 
+*Ensure Docker is installed* 
+
 ```bash
 # Start the microservices:
 ./scripts/start-ms.sh
