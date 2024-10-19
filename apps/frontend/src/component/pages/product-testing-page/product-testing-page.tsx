@@ -113,14 +113,14 @@ const ProductTestingPage = () => {
   };
 
   return (
-    <div className="flex h-svh flex-col items-center justify-center p-10">
+    <div className="flex flex-col items-center justify-center p-10">
       <div className="mx-auto max-w-3xl rounded-lg bg-yellow-50 p-6 shadow-md">
         <div className="flex items-center text-lg text-yellow-500">
           <span className="mr-2">★★★★★</span>
           <span className="font-bold">25,000+ Happy Customers</span>
         </div>
 
-        <h1 id="title" className="my-4 text-4xl font-bold text-gray-800">
+        <h1 id="title" className="text-4xl font-bold text-gray-800">
           <Controller
             name="title"
             control={control}
