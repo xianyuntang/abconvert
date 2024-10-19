@@ -151,3 +151,25 @@ also the item information can be stored to the cache like redis (currently it is
 
 The system can be deployed on kubernetes to make sure the fault tolerance.
 
+
+### Deployment
+
+- product page
+  - http://localhost:3000/products/zJNGtZELDJvvdiTMTW5Aw
+  - https://abconvert.dysonshark.com/products/zJNGtZELDJvvdiTMTW5Aw
+- testing page
+  - http://localhost:3000/products/zJNGtZELDJvvdiTMTW5Aw/testing
+  - https://abconvert.dysonshark.com/products/zJNGtZELDJvvdiTMTW5Aw/testing
+- statistics page
+  - http://localhost:3000/products/zJNGtZELDJvvdiTMTW5Aw/statistics
+  - https://abconvert.dysonshark.com/products/zJNGtZELDJvvdiTMTW5Aw/statistics
+
+
+### Misc
+When a user visits the product page, 
+they'll be randomly assigned a version of the product.
+Since they haven't signed in, the client will store a client ID in local storage to make sure they always see the same version.
+
+### TODO
+- The backend can be rewritten using the CQRS pattern, and postgres can be set up as replicas.
+- The statistics page can show multiple testing results
